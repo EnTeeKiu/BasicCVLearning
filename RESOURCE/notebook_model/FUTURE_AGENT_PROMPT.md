@@ -20,6 +20,7 @@ For each requested day:
 - Include theory, named exercise sections, TODO code cells, solution code cells, test cases, and a final checklist.
 - Keep the notebook self-contained with toy data when possible.
 - When toy/custom image data is needed, include a ready-to-run data-generation cell before exercises; do not make the learner implement the data generator.
+- If the toy data is file-based, write the generated files into the day folder, for example `_dayDD_image_data/images/*.png` plus `_dayDD_image_data/labels.csv`, and keep paths relative to the notebook folder.
 - Do not add unstructured final `## Exercises` sections.
 - Add `## Test Cases` cells to both notebooks.
 - Make the solution notebook pass its tests.

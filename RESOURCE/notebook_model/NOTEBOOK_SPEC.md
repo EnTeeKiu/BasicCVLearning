@@ -31,9 +31,11 @@ Only create additional data folders if the notebook needs local toy data:
 ```text
 DD.MM/
   _dayDD_demo_data/
+  _dayDD_image_data/
 ```
 
 Use relative paths so notebooks run from inside their own folder.
+For synthetic image/video/audio fixtures, the prepared-data cell should write the actual files into that local day folder, plus any CSV/metadata needed to reload them. For image classification, mirror the Day 07 pattern: `_dayDD_image_data/images/*.png` and `_dayDD_image_data/labels.csv` with relative `image_path,label` rows.
 
 ## Practice Notebook Template
 
@@ -56,6 +58,7 @@ Recommended cell order:
 Practice code cells should use clear TODO comments and `raise NotImplementedError` where the learner must fill code.
 
 Do not make the learner implement custom data generation. If the notebook needs synthetic images, videos, text, or labels, provide that generator in a normal runnable cell before the exercises. Exercises may ask the learner to inspect, batch, transform, model, train on, or evaluate that data.
+When the generator represents file-based data, it must materialize the files on disk before the exercises, not only return tensors in memory.
 
 ## Solution Notebook Template
 
@@ -109,6 +112,7 @@ except ImportError:
 - Explain enough theory for the learner to solve the exercise.
 - Keep exercises scoped and testable.
 - Use toy data for repeatability, and provide its generation code outside TODO cells.
+- If toy data is file-based, save the generated artifacts under the day folder and include tests that check the expected folder/metadata files exist.
 - Use deterministic seeds.
 - Avoid hidden magic in tests.
 - Do not add random end-of-notebook bonus exercises unless they follow the same exercise + solution + test style.

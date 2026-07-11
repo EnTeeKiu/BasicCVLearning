@@ -46,6 +46,7 @@ Every solution notebook should:
 
 - Keep notebooks self-contained. Generate toy data locally when possible.
 - If custom image/data fixtures are needed, provide a ready-to-run generation cell before the exercises. The learner should not be responsible for coding synthetic data generators.
+- For file-based toy data, the generation cell must write the artifacts into the day folder. For image datasets, use a local pattern like `_dayDD_image_data/images/*.png` plus `_dayDD_image_data/labels.csv`, and keep paths relative to the notebook folder.
 - Avoid required internet downloads.
 - If PyTorch, OpenCV, matplotlib, or another package may be missing, handle that gracefully.
 - Avoid final unstructured `## Exercises` sections. Exercises should appear as named sections with matching TODO or solution cells.
@@ -60,6 +61,7 @@ Before committing new notebooks:
 - Compile every code cell as Python.
 - Execute the solution notebook if dependencies are available.
 - Confirm the test cell prints `Day DD tests passed`.
+- Confirm generated file-based fixtures exist on disk when the notebook relies on them.
 - Confirm practice notebooks contain TODOs and solution notebooks contain full code.
 - Confirm no unrelated files are staged.
 
