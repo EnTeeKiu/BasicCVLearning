@@ -29,6 +29,20 @@ np.random.seed(SEED)
 ```
 
 ```text
+## Prepared Image Data
+
+Generate deterministic toy data here when the day needs custom data.
+```
+
+```python
+def make_demo_images(...):
+    # Complete provided helper, not a TODO.
+    ...
+
+X, y = make_demo_images(...)
+```
+
+```text
 ## Exercise DD-A: Name
 
 Clear task description.
@@ -60,4 +74,3 @@ run_dayDD_tests()
 
 Checklist items for the day.
 ```
-

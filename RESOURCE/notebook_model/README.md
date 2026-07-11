@@ -28,11 +28,12 @@ Every new practice notebook should include:
 3. Daily output copied or adapted from the masterplan
 4. Theory cells explaining the core ideas
 5. Setup/import cell with graceful dependency handling
-6. Numbered exercise sections like `## Exercise 10-A: ...`
-7. TODO code cells for the learner to complete
-8. `## Test Cases` markdown cell
-9. Runnable test code cell with assertions and a clear pass message
-10. `## Day DD Checklist`
+6. Prepared data-generation cell when custom/toy data is needed
+7. Numbered exercise sections like `## Exercise 10-A: ...`
+8. TODO code cells for the learner to complete
+9. `## Test Cases` markdown cell
+10. Runnable test code cell with assertions and a clear pass message
+11. `## Day DD Checklist`
 
 Every solution notebook should:
 
@@ -44,6 +45,7 @@ Every solution notebook should:
 ## Style Rules
 
 - Keep notebooks self-contained. Generate toy data locally when possible.
+- If custom image/data fixtures are needed, provide a ready-to-run generation cell before the exercises. The learner should not be responsible for coding synthetic data generators.
 - Avoid required internet downloads.
 - If PyTorch, OpenCV, matplotlib, or another package may be missing, handle that gracefully.
 - Avoid final unstructured `## Exercises` sections. Exercises should appear as named sections with matching TODO or solution cells.
@@ -69,4 +71,3 @@ When committing generated notebooks:
 2. Stage only the requested day folders.
 3. Commit with a message like `Add study notebooks for day 10`.
 4. Push to `origin/main` if the user asks or the session is already following the push workflow.
-

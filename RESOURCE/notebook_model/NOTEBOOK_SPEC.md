@@ -42,16 +42,20 @@ Recommended cell order:
 1. Markdown title and purpose
 2. Markdown theory overview
 3. Code setup/imports
-4. Markdown exercise A
-5. Code TODO A
-6. Markdown exercise B
-7. Code TODO B
-8. Continue for 3-6 exercises
-9. Markdown `## Test Cases`
-10. Code `run_dayDD_tests()`
-11. Markdown checklist
+4. Markdown `## Prepared Data` or `## Prepared Image Data` when toy/custom data is needed
+5. Code cell that generates deterministic toy/custom data
+6. Markdown exercise A
+7. Code TODO A
+8. Markdown exercise B
+9. Code TODO B
+10. Continue for 3-6 exercises
+11. Markdown `## Test Cases`
+12. Code `run_dayDD_tests()`
+13. Markdown checklist
 
 Practice code cells should use clear TODO comments and `raise NotImplementedError` where the learner must fill code.
+
+Do not make the learner implement custom data generation. If the notebook needs synthetic images, videos, text, or labels, provide that generator in a normal runnable cell before the exercises. Exercises may ask the learner to inspect, batch, transform, model, train on, or evaluate that data.
 
 ## Solution Notebook Template
 
@@ -104,7 +108,7 @@ except ImportError:
 
 - Explain enough theory for the learner to solve the exercise.
 - Keep exercises scoped and testable.
-- Use toy data for repeatability.
+- Use toy data for repeatability, and provide its generation code outside TODO cells.
 - Use deterministic seeds.
 - Avoid hidden magic in tests.
 - Do not add random end-of-notebook bonus exercises unless they follow the same exercise + solution + test style.
@@ -118,4 +122,3 @@ python -c "import json,pathlib; files=sorted(pathlib.Path('.').glob('DD.MM/*.ipy
 ```
 
 Execute a solution notebook manually by reading each code cell in order, or open it in Jupyter and run all.
-
