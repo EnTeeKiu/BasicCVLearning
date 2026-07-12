@@ -6,6 +6,20 @@ Use it when a new session needs to continue the study plan without reading old c
 
 `[OLP AI] Masterplan - Tu's Plan.csv`
 
+The source of truth for allowed notebook libraries is:
+
+`RESOURCE/library.png`
+
+Future notebooks must use only the libraries listed there. Current allowed libraries are:
+
+- Machine learning / NLP: `torch`, `tensorflow`, `scikit-learn`, `xgboost`, `catboost`, `transformers`, `spacy`, `nltk`, `gensim`, `fasttext`
+- Data processing: `pandas`, `numpy`, `scipy`, `csv`, `json`, `pickle`
+- Image processing: `opencv-python`, `Pillow`, `torchvision`, `scikit-image`
+- Visualization: `matplotlib`, `seaborn`, `plotly`, `autoviz`
+- Utilities: `joblib`, `datasets`, `evaluate`, `os`, `sys`, `re`, `itertools`, `collections`, `time`, `pdb`, `pytorch-lightning`, `tensorboard`, `tqdm`
+
+Do not import unlisted helpers such as `pathlib`, `random`, or `math` in generated notebooks unless `RESOURCE/library.png` is updated.
+
 ## Goal
 
 For each study day, create a folder named by date, for example:
@@ -27,7 +41,7 @@ Every new practice notebook should include:
 2. Notebook type line: practice notebook with theory, exercises, TODO cells, and test cases
 3. Daily output copied or adapted from the masterplan
 4. Theory cells explaining the core ideas
-5. Setup/import cell with graceful dependency handling
+5. Setup/import cell using only libraries allowed by `RESOURCE/library.png`
 6. Prepared data-generation cell when custom/toy data is needed
 7. Numbered exercise sections like `## Exercise 10-A: ...`
 8. TODO code cells for the learner to complete
@@ -48,7 +62,8 @@ Every solution notebook should:
 - If custom image/data fixtures are needed, provide a ready-to-run generation cell before the exercises. The learner should not be responsible for coding synthetic data generators.
 - For file-based toy data, the generation cell must write the artifacts into the day folder. For image datasets, use a local pattern like `_dayDD_image_data/images/*.png` plus `_dayDD_image_data/labels.csv`, and keep paths relative to the notebook folder.
 - Avoid required internet downloads.
-- If PyTorch, OpenCV, matplotlib, or another package may be missing, handle that gracefully.
+- Use allowed libraries directly when they fit the topic. For CV transforms and models, `torchvision` is allowed; do not replace it with custom fallback transform/model helpers just because a local environment might be missing it.
+- If an allowed dependency is missing during validation, report that clearly instead of adding unapproved fallback libraries or broad compatibility layers.
 - Avoid final unstructured `## Exercises` sections. Exercises should appear as named sections with matching TODO or solution cells.
 - Use assertion-based tests so the learner can verify their work.
 - Prefer small, fast examples over big datasets.

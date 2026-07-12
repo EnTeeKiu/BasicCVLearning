@@ -16,6 +16,8 @@ Read the root masterplan CSV row for the target date. Extract:
 
 If the user types a date that looks inconsistent with the plan, infer cautiously and state it. Example: if the user asks for `08.08` but the sequence and CSV show `08/07/2026`, create `08.07` and mention the assumption.
 
+Also read `RESOURCE/library.png` before writing notebook code. It is the allowlist for imports inside generated notebooks.
+
 ## Folder And File Naming
 
 For new days, use:
@@ -64,7 +66,7 @@ When the generator represents file-based data, it must materialize the files on 
 
 Use the same markdown as the practice notebook, but replace TODO cells with complete implementations.
 
-The solution notebook should be executable top-to-bottom. If a dependency is missing, skip optional checks gracefully; do not crash for optional visualization.
+The solution notebook should be executable top-to-bottom in an environment with the allowed libraries installed. If a locally missing dependency prevents validation, report it clearly; do not add unapproved fallback imports or custom compatibility layers.
 
 ## Test Cell Requirements
 
@@ -77,7 +79,7 @@ Test cells should:
 - Use small deterministic examples
 - Print exactly: `Day DD tests passed`
 
-If PyTorch is required and missing, the test may print a clear skip message. If the notebook topic is pure math or NumPy, tests should run without PyTorch.
+If a required allowed dependency is missing in the local validation environment, report that validation could not execute. If the notebook topic is pure NumPy/data processing, tests should run without PyTorch.
 
 Example:
 
@@ -93,19 +95,19 @@ run_day10_tests()
 
 ## Dependency Policy
 
-Prefer standard library, NumPy, PIL, and PyTorch. Avoid new dependencies unless the topic requires them.
+Use only the libraries allowed by `RESOURCE/library.png`.
 
-When using optional packages:
+Current allowed libraries:
 
-```python
-try:
-    import torch
-    TORCH_AVAILABLE = True
-except ImportError:
-    torch = None
-    TORCH_AVAILABLE = False
-    print("PyTorch is not installed. Optional PyTorch cells will be skipped.")
-```
+- Machine learning / NLP: `torch`, `tensorflow`, `scikit-learn`, `xgboost`, `catboost`, `transformers`, `spacy`, `nltk`, `gensim`, `fasttext`
+- Data processing: `pandas`, `numpy`, `scipy`, `csv`, `json`, `pickle`
+- Image processing: `opencv-python`, `Pillow`, `torchvision`, `scikit-image`
+- Visualization: `matplotlib`, `seaborn`, `plotly`, `autoviz`
+- Utilities: `joblib`, `datasets`, `evaluate`, `os`, `sys`, `re`, `itertools`, `collections`, `time`, `pdb`, `pytorch-lightning`, `tensorboard`, `tqdm`
+
+Avoid unlisted notebook imports such as `pathlib`, `random`, `math`, `typing`, or `dataclasses`. Use allowed equivalents: `os` for paths, `numpy.random` and `torch.manual_seed` for randomness, and basic arithmetic or `numpy` for simple numeric helpers.
+
+For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for standard image augmentation and `torchvision.models` for transfer-learning skeletons instead of creating local fallback transform/model systems.
 
 ## Content Quality Rules
 
@@ -122,7 +124,7 @@ except ImportError:
 Compile notebooks:
 
 ```powershell
-python -c "import json,pathlib; files=sorted(pathlib.Path('.').glob('DD.MM/*.ipynb')); [compile((c['source'] if isinstance(c['source'], str) else ''.join(c['source'])), str(p), 'exec') for p in files for c in json.loads(p.read_text(encoding='utf-8'))['cells'] if c['cell_type']=='code']; print('ok')"
+python -c "import json,os; files=sorted(os.path.join('DD.MM',f) for f in os.listdir('DD.MM') if f.endswith('.ipynb')); [compile((c['source'] if isinstance(c['source'], str) else ''.join(c['source'])), p, 'exec') for p in files for c in json.loads(open(p, encoding='utf-8').read())['cells'] if c['cell_type']=='code']; print('ok')"
 ```
 
 Execute a solution notebook manually by reading each code cell in order, or open it in Jupyter and run all.

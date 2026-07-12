@@ -20,12 +20,13 @@ Explain the essential concepts from the masterplan row.
 
 ```python
 # setup/imports
-import random
+import os
 import numpy as np
+import torch
 
 SEED = 42
-random.seed(SEED)
 np.random.seed(SEED)
+torch.manual_seed(SEED)
 ```
 
 ```text
