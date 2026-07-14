@@ -14,10 +14,10 @@ Before creating notebooks:
 - Read `notebook_model/NOTEBOOK_SPEC.md`.
 
 For each requested day:
-- Create a folder named `DD.MM` if it does not exist.
-- Create `DD.MM/DD.MM.ipynb` as the practice notebook.
-- Create `DD.MM/DD.MM_solution.ipynb` as the full solution notebook.
-- Follow the existing notebook style from `08.07` and `09.07`.
+- Create a folder named with a two-digit study-order prefix plus the notebook topic title, not just the date. Use the title text after `DD.MM - ` and sanitize invalid Windows path characters, e.g. `Image I/O for CV` becomes `03 - Image IO for CV`.
+- Create `NN - Topic Title/DD.MM.ipynb` as the practice notebook.
+- Create `NN - Topic Title/DD.MM_solution.ipynb` as the full solution notebook.
+- Follow the existing notebook style from `06 - CNN Fundamentals` and `07 - Small CNN Coding`.
 - Include theory, named exercise sections, TODO code cells, solution code cells, test cases, and a final checklist.
 - Use only libraries listed in `RESOURCE/library.png`; do not import unlisted helpers such as `pathlib`, `random`, or `math` in notebook code.
 - For CV transforms/models, use allowed `torchvision` APIs directly when they fit the task.

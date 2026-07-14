@@ -22,16 +22,18 @@ Do not import unlisted helpers such as `pathlib`, `random`, or `math` in generat
 
 ## Goal
 
-For each study day, create a folder named by date, for example:
+For each study day, create a folder named with a two-digit study-order prefix plus that day's notebook topic title, not just by date. Use the title text after the `DD.MM - ` prefix and sanitize characters that are invalid in Windows paths. For example:
 
-`10.07/`
+`08 - Optimization for CV/`
 
-Preferred notebook pair for new days:
+Keep notebook filenames date-based inside the topic folder:
 
-- `10.07/10.07.ipynb` - practice notebook with theory, TODO exercises, and test cases
-- `10.07/10.07_solution.ipynb` - full working solution notebook with the same test cases
+- `08 - Optimization for CV/10.07.ipynb` - practice notebook with theory, TODO exercises, and test cases
+- `08 - Optimization for CV/10.07_solution.ipynb` - full working solution notebook with the same test cases
 
-Do not rename older day files unless the user asks. Some earlier folders have extra files such as `*_practicing.ipynb` or `*_clean_exercises.ipynb`; preserve them.
+Example sanitization: the topic `Image I/O for CV` should use the folder `03 - Image IO for CV/`.
+
+Do not rename older notebook files unless the user asks. Some earlier topic folders have extra files such as `*_practicing.ipynb` or `*_clean_exercises.ipynb`; preserve them.
 
 ## Required Notebook Shape
 

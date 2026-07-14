@@ -14,24 +14,29 @@ Read the root masterplan CSV row for the target date. Extract:
 - `Priority`
 - `Notes`
 
-If the user types a date that looks inconsistent with the plan, infer cautiously and state it. Example: if the user asks for `08.08` but the sequence and CSV show `08/07/2026`, create `08.07` and mention the assumption.
+If the user types a date that looks inconsistent with the plan, infer cautiously and state it. Example: if the user asks for `08.08` but the sequence and CSV show `08/07/2026`, use the `08/07/2026` row and mention the assumption.
 
 Also read `RESOURCE/library.png` before writing notebook code. It is the allowlist for imports inside generated notebooks.
 
 ## Folder And File Naming
 
-For new days, use:
+For new days, name the top-level folder with a two-digit study-order prefix plus the topic title from the notebook H1, using the title text after `DD.MM - `. Sanitize characters that are invalid in Windows paths, such as `/`, `\`, `:`, `*`, `?`, `"`, `<`, `>`, and `|`.
+
+Use date-based notebook filenames inside that numbered topic folder:
 
 ```text
-DD.MM/
+NN - Topic Title/
   DD.MM.ipynb
   DD.MM_solution.ipynb
 ```
 
+Example: `10.07 - Optimization for CV` lives in `08 - Optimization for CV/10.07.ipynb`.
+Example sanitization: `05.07 - Image I/O for CV` lives in `03 - Image IO for CV/05.07.ipynb`.
+
 Only create additional data folders if the notebook needs local toy data:
 
 ```text
-DD.MM/
+NN - Topic Title/
   _dayDD_demo_data/
   _dayDD_image_data/
 ```
@@ -124,7 +129,7 @@ For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for sta
 Compile notebooks:
 
 ```powershell
-python -c "import json,os; files=sorted(os.path.join('DD.MM',f) for f in os.listdir('DD.MM') if f.endswith('.ipynb')); [compile((c['source'] if isinstance(c['source'], str) else ''.join(c['source'])), p, 'exec') for p in files for c in json.loads(open(p, encoding='utf-8').read())['cells'] if c['cell_type']=='code']; print('ok')"
+python -c "import json,os; folder='NN - Topic Title'; files=sorted(os.path.join(folder,f) for f in os.listdir(folder) if f.endswith('.ipynb')); [compile((c['source'] if isinstance(c['source'], str) else ''.join(c['source'])), p, 'exec') for p in files for c in json.loads(open(p, encoding='utf-8').read())['cells'] if c['cell_type']=='code']; print('ok')"
 ```
 
 Execute a solution notebook manually by reading each code cell in order, or open it in Jupyter and run all.
