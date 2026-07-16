@@ -64,6 +64,8 @@ Recommended cell order:
 
 Practice code cells should use clear TODO comments and `raise NotImplementedError` where the learner must fill code.
 
+Every learner-implementation cell must end with a clearly labeled `# Smoke check` block. That block must call every newly implemented function/class, or use one representative end-to-end call when the functions are intentionally interdependent, and print, display, or assert a result that proves the implementation body executed. Definition-only exercise cells are not allowed. In practice notebooks, running the unfinished cell may raise `NotImplementedError`; once the TODO is completed, rerunning that same cell must execute the smoke check successfully. A final day test cell complements these checks but does not replace them.
+
 Do not make the learner implement custom data generation. If the notebook needs synthetic images, videos, text, or labels, provide that generator in a normal runnable cell before the exercises. Exercises may ask the learner to inspect, batch, transform, model, train on, or evaluate that data.
 When the generator represents file-based data, it must materialize the files on disk before the exercises, not only return tensors in memory.
 
@@ -122,6 +124,7 @@ For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for sta
 - If toy data is file-based, save the generated artifacts under the day folder and include tests that check the expected folder/metadata files exist.
 - Use deterministic seeds.
 - Avoid hidden magic in tests.
+- Exercise cells must demonstrate their code immediately with prepared inputs; do not defer the first function call to the final test cell or a later exercise.
 - Do not add random end-of-notebook bonus exercises unless they follow the same exercise + solution + test style.
 
 ## Validation Commands

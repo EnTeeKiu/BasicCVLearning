@@ -67,6 +67,7 @@ Every solution notebook should:
 - Use allowed libraries directly when they fit the topic. For CV transforms and models, `torchvision` is allowed; do not replace it with custom fallback transform/model helpers just because a local environment might be missing it.
 - If an allowed dependency is missing during validation, report that clearly instead of adding unapproved fallback libraries or broad compatibility layers.
 - Avoid final unstructured `## Exercises` sections. Exercises should appear as named sections with matching TODO or solution cells.
+- Do not leave learner-implemented functions or classes as definition-only cells. At the bottom of each exercise code cell, add a clearly labeled smoke check that calls the newly implemented API with prepared data and prints, displays, or asserts a meaningful result. In a practice notebook, the smoke check may fail with `NotImplementedError` until the TODO is completed; after completion, the same cell must exercise the learner's code immediately.
 - Use assertion-based tests so the learner can verify their work.
 - Prefer small, fast examples over big datasets.
 - For CV notebooks, always check shape, dtype, device, and label mapping where relevant.
@@ -80,6 +81,7 @@ Before committing new notebooks:
 - Confirm the test cell prints `Day DD tests passed`.
 - Confirm generated file-based fixtures exist on disk when the notebook relies on them.
 - Confirm practice notebooks contain TODOs and solution notebooks contain full code.
+- Confirm every learner-implementation cell includes and runs an immediate smoke check; final test cells are additional verification and do not replace per-cell calls.
 - Confirm no unrelated files are staged.
 
 ## Git Workflow

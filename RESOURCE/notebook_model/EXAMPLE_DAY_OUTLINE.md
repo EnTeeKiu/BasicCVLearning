@@ -53,7 +53,14 @@ Clear task description.
 # TODO DD-A
 def required_function(...):
     raise NotImplementedError
+
+
+# Smoke check: run this after implementing the function above.
+smoke_result = required_function(...)
+print("smoke check:", smoke_result)
 ```
+
+The solution notebook uses the same smoke-check lines with the completed function. The smoke check must execute the implementation in its own exercise cell; the final day tests provide broader verification afterward.
 
 ```text
 ## Test Cases

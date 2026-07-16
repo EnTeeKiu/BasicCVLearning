@@ -25,6 +25,7 @@ For each requested day:
 - When toy/custom image data is needed, include a ready-to-run data-generation cell before exercises; do not make the learner implement the data generator.
 - If the toy data is file-based, write the generated files into the day folder, for example `_dayDD_image_data/images/*.png` plus `_dayDD_image_data/labels.csv`, and keep paths relative to the notebook folder.
 - Do not add unstructured final `## Exercises` sections.
+- End every learner-implementation cell with a labeled smoke check that immediately calls the new function/class on prepared data and shows a meaningful result; do not rely only on the final test cell.
 - Add `## Test Cases` cells to both notebooks.
 - Make the solution notebook pass its tests.
 - Compile all new notebook code cells.
