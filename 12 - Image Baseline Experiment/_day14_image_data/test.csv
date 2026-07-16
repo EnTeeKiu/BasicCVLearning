@@ -1,0 +1,7 @@
+image_id,image_path,expected_label
+test_circle_00,images\test_circle_00.png,circle
+test_circle_01,images\test_circle_01.png,circle
+test_square_00,images\test_square_00.png,square
+test_square_01,images\test_square_01.png,square
+test_triangle_00,images\test_triangle_00.png,triangle
+test_triangle_01,images\test_triangle_01.png,triangle
