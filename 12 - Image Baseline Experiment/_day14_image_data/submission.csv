@@ -1,7 +1,7 @@
 image_id,label
-test_circle_00,square
-test_circle_01,square
-test_square_00,square
-test_square_01,square
+test_circle_00,circle
+test_circle_01,circle
+test_square_00,triangle
+test_square_01,triangle
 test_triangle_00,triangle
 test_triangle_01,triangle

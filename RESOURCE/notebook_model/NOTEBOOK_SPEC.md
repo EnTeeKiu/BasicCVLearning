@@ -69,6 +69,21 @@ Every learner-implementation cell must end with a clearly labeled `# Smoke check
 Do not make the learner implement custom data generation. If the notebook needs synthetic images, videos, text, or labels, provide that generator in a normal runnable cell before the exercises. Exercises may ask the learner to inspect, batch, transform, model, train on, or evaluate that data.
 When the generator represents file-based data, it must materialize the files on disk before the exercises, not only return tensors in memory.
 
+## Return Structure Requirements
+
+Immediately before every function or callable class introduced by the notebook, include a clearly labeled **Return structure** contract in markdown. Apply this to prepared-data helpers, learner implementations, solution implementations, model callables, and test runners. The practice and solution notebooks must contain the same contracts.
+
+Each contract must state, as applicable:
+
+- The outer container or object type, such as `torch.Tensor`, tuple, `list[dict]`, or module instance
+- Tensor/array shape, dtype, and device; define dimension symbols such as `N` and `C`
+- Every tuple position in order
+- Every dictionary key, its value type, and any nested schema
+- List item type and length or length bounds
+- Whether a function returns `None` and how success or side effects are communicated
+
+Do not rely on example output or vague phrases such as "returns a dictionary." A learner should be able to construct the expected output skeleton from the contract without reading the solution code.
+
 ## Solution Notebook Template
 
 Use the same markdown as the practice notebook, but replace TODO cells with complete implementations.
