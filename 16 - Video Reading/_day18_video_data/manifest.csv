@@ -1,0 +1,4 @@
+video_path,num_frames,fps,width,height
+_day18_video_data\short_05.avi,5,8.0,64,48
+_day18_video_data\exact_16.avi,16,8.0,64,48
+_day18_video_data\long_29.avi,29,8.0,64,48
