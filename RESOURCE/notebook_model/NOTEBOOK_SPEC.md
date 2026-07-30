@@ -134,6 +134,10 @@ For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for sta
 ## Content Quality Rules
 
 - Explain enough theory for the learner to solve the exercise.
+- Prefer direct, idiomatic use of allowed library APIs. Exercises should develop fluency in choosing parameters, adapting data at library boundaries, composing tools into a pipeline, preventing leakage, and interpreting results.
+- Do not require manual reimplementations of standard library functionality unless the masterplan topic explicitly focuses on the underlying algorithm. If a manual derivation helps understanding, keep it as a short explanation or optional comparison; the main runnable workflow should use the allowed production API.
+- State semantic differences that affect model validity. For imbalanced classification, distinguish proportion-preserving stratification from exact balancing through under/oversampling, and explain the data-retention and evaluation-distribution tradeoffs.
+- Prefer stratified splitting followed by training-only sampling or class weighting for standard imbalanced-classification workflows. Validation should retain distinct, unsampled observations; metrics such as Macro-F1 can give classes equal importance without duplicating validation rows.
 - Keep exercises scoped and testable.
 - Use toy data for repeatability, and provide its generation code outside TODO cells.
 - If toy data is file-based, save the generated artifacts under the day folder and include tests that check the expected folder/metadata files exist.

@@ -61,6 +61,9 @@ Every solution notebook should:
 ## Style Rules
 
 - Keep notebooks self-contained. Generate toy data locally when possible.
+- Follow a library-first teaching policy. When an allowed library already provides the production-standard operation, teach the learner to select, configure, apply, and interpret that API. Do not make the learner reimplement standard splitters, metrics, transforms, samplers, or similar utilities unless understanding that algorithm's internals is the explicit topic for the day.
+- Explain important API semantics and tradeoffs alongside usage. For example, distinguish a stratified split, which preserves class proportions, from exact class balancing, which may require under/oversampling and changes the sampled distribution.
+- For ordinary imbalanced classification, default to a stratified original-data split, keep validation untouched, and address training imbalance with an allowed sampler or class-weighted loss. Do not duplicate validation observations to make its class counts equal.
 - If custom image/data fixtures are needed, provide a ready-to-run generation cell before the exercises. The learner should not be responsible for coding synthetic data generators.
 - For file-based toy data, the generation cell must write the artifacts into the day folder. For image datasets, use a local pattern like `_dayDD_image_data/images/*.png` plus `_dayDD_image_data/labels.csv`, and keep paths relative to the notebook folder.
 - Avoid required internet downloads.

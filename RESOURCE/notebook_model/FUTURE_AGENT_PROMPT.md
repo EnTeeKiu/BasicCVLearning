@@ -20,6 +20,9 @@ For each requested day:
 - Follow the existing notebook style from `06 - CNN Fundamentals` and `07 - Small CNN Coding`.
 - Include theory, named exercise sections, TODO code cells, solution code cells, test cases, and a final checklist.
 - Use only libraries listed in `RESOURCE/library.png`; do not import unlisted helpers such as `pathlib`, `random`, or `math` in notebook code.
+- Use allowed libraries idiomatically: teach learners to select, configure, combine, and interpret integrated tools instead of manually recreating standard splitters, metrics, transforms, or samplers. Only require a manual implementation when that algorithm's internals are the explicit learning objective.
+- Explain consequential API distinctions and tradeoffs, such as stratified splitting versus exact class balancing.
+- For standard imbalanced classification, prefer a stratified split plus training-only sampling or class weighting; keep validation observations distinct and unsampled.
 - For CV transforms/models, use allowed `torchvision` APIs directly when they fit the task.
 - Keep the notebook self-contained with toy data when possible.
 - When toy/custom image data is needed, include a ready-to-run data-generation cell before exercises; do not make the learner implement the data generator.
