@@ -10,6 +10,7 @@ Please create study notebooks for the requested OLP AI masterplan day(s).
 Before creating notebooks:
 - Read `[OLP AI] Masterplan - Tu's Plan.csv`.
 - Read `RESOURCE/library.png` and use it as the import allowlist for notebook code.
+- Read `RESOURCE/notebook_model/PRETRAINED_MODEL_POLICY.md`; check allowlisted official model catalogs before writing any architecture from scratch.
 - Read `notebook_model/README.md`.
 - Read `notebook_model/NOTEBOOK_SPEC.md`.
 
@@ -30,6 +31,8 @@ For each requested day:
 - Do not add unstructured final `## Exercises` sections.
 - Immediately before every function or callable class, add a labeled **Return structure** contract that specifies the complete output type and schema. Include tuple positions, dictionary keys and nested value types, list item types/length, tensor or array shape/dtype/device, or an explicit `None`. Keep these contracts identical in the practice and solution notebooks.
 - End every learner-implementation cell with a labeled smoke check that immediately calls the new function/class on prepared data and shows a meaningful result; do not rely only on the final test cell.
+- Distinguish structural smoke checks from training-decision evidence. Tiny slices are fine for shapes and API checks, but strategy comparisons must use the complete prepared split by default and print split sizes, validation class support, main/per-class metrics, and deltas from the baseline.
+- Size imbalanced synthetic validation data for interpretable per-class metrics (target at least 10 observations per class when practical), keep compared runs aligned on initialization/epochs/observations per epoch, and never assert that one stochastic strategy must win.
 - Add `## Test Cases` cells to both notebooks.
 - Make the solution notebook pass its tests.
 - Compile all new notebook code cells.

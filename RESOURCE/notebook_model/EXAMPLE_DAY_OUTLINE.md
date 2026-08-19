@@ -62,6 +62,8 @@ print("smoke check:", smoke_result)
 
 The solution notebook uses the same smoke-check lines with the completed function. The smoke check must execute the implementation in its own exercise cell; the final day tests provide broader verification afterward.
 
+For a function that compares training decisions, keep a tiny call only as an explicitly labeled structural smoke check. Then run the decision experiment on the complete prepared split in the same cell and print split sizes, validation class support, the main metric, per-class metrics, and delta from the baseline. Keep compared runs aligned on initialization, epochs, and observations per epoch.
+
 ```text
 ## Test Cases
 
@@ -72,6 +74,8 @@ Run this cell after completing the TODO cells above. A correct implementation sh
 def run_dayDD_tests():
     assert "required_function" in globals(), "Missing function: required_function"
     # deterministic checks here
+    # For training comparisons, verify the full validation set is represented,
+    # then print the already-computed full-split evidence table.
     print("Day DD tests passed")
 
 run_dayDD_tests()

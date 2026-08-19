@@ -1,0 +1,7 @@
+image_path,label_path
+images\image_00.png,labels\image_00.txt
+images\image_01.png,labels\image_01.txt
+images\image_02.png,labels\image_02.txt
+images\image_03.png,labels\image_03.txt
+images\image_04.png,labels\image_04.txt
+images\image_05.png,labels\image_05.txt

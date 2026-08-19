@@ -101,6 +101,16 @@ Test cells should:
 - Use small deterministic examples
 - Print exactly: `Day DD tests passed`
 
+Separate structural verification from decision evidence:
+
+- Tiny tensors or slices are appropriate for shape, dtype, error-path, and API smoke checks.
+- If the lesson asks whether a training choice helps, the primary comparison and its final tests should reuse the complete prepared train/validation split rather than retraining on a tiny subset.
+- Size synthetic fixtures so the untouched validation split has meaningful support for every reported class. For imbalanced tutorials, target at least 10 validation observations per class when practical, print the support, and explicitly disclose smaller support.
+- Hold the split, initialization, epoch count, batch size, and observations per epoch constant unless one of those is the variable being taught. In sampler comparisons, changing `num_samples` changes optimization exposure and must be controlled or clearly labeled.
+- Print an interpretable evidence table near the comparison: dataset/split size, validation class support, the main validation metric, per-class metrics, and delta from the baseline.
+- Tests should verify that train and validation are disjoint, every prepared observation is accounted for, and each confusion matrix covers the full validation set. Keep pass/fail assertions focused on contracts and invariants; do not require a stochastic training strategy to beat another strategy.
+- A single deterministic synthetic run demonstrates mechanics, not a universal ranking. Use repeated seeds when runtime permits; otherwise state that limitation in the notebook.
+
 If a required allowed dependency is missing in the local validation environment, report that validation could not execute. If the notebook topic is pure NumPy/data processing, tests should run without PyTorch.
 
 Example:
@@ -129,6 +139,8 @@ Current allowed libraries:
 
 Avoid unlisted notebook imports such as `pathlib`, `random`, `math`, `typing`, or `dataclasses`. Use allowed equivalents: `os` for paths, `numpy.random` and `torch.manual_seed` for randomness, and basic arithmetic or `numpy` for simple numeric helpers.
 
+Also read `RESOURCE/notebook_model/PRETRAINED_MODEL_POLICY.md` before creating model exercises. Check current official catalogs and locally installed versions for an exact allowlisted architecture and permitted pretrained weights. Treat package availability, checkpoint availability, and competition legality as separate constraints. Prefer a library architecture with no weights over a handwritten replacement when the checkpoint is unavailable. If the requested model is not implemented by an allowed library, name the substitution explicitly and preserve the conceptual differences; never label a substitute as the original model.
+
 For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for standard image augmentation and `torchvision.models` for transfer-learning skeletons instead of creating local fallback transform/model systems.
 
 ## Content Quality Rules
@@ -144,6 +156,7 @@ For CV notebooks, `torchvision` is allowed. Use `torchvision.transforms` for sta
 - Use deterministic seeds.
 - Avoid hidden magic in tests.
 - Exercise cells must demonstrate their code immediately with prepared inputs; do not defer the first function call to the final test cell or a later exercise.
+- Label speed-only calls as structural smoke checks. For functions whose purpose is to compare training decisions, follow the smoke check with a full prepared-split experiment and print metrics plus baseline deltas in that same function cell.
 - Do not add random end-of-notebook bonus exercises unless they follow the same exercise + solution + test style.
 
 ## Validation Commands

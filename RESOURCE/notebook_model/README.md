@@ -10,6 +10,12 @@ The source of truth for allowed notebook libraries is:
 
 `RESOURCE/library.png`
 
+The model-selection policy for competition-oriented notebooks is:
+
+`RESOURCE/notebook_model/PRETRAINED_MODEL_POLICY.md`
+
+Read it before designing a model exercise. Prefer an exact allowlisted pretrained model when its checkpoint is permitted and locally available; otherwise prefer the allowlisted library architecture without weights. Do not hand-code a substitute before checking the official model catalogs.
+
 Future notebooks must use only the libraries listed there. Current allowed libraries are:
 
 - Machine learning / NLP: `torch`, `tensorflow`, `scikit-learn`, `xgboost`, `catboost`, `transformers`, `spacy`, `nltk`, `gensim`, `fasttext`
@@ -72,7 +78,9 @@ Every solution notebook should:
 - Avoid final unstructured `## Exercises` sections. Exercises should appear as named sections with matching TODO or solution cells.
 - Do not leave learner-implemented functions or classes as definition-only cells. At the bottom of each exercise code cell, add a clearly labeled smoke check that calls the newly implemented API with prepared data and prints, displays, or asserts a meaningful result. In a practice notebook, the smoke check may fail with `NotImplementedError` until the TODO is completed; after completion, the same cell must exercise the learner's code immediately.
 - Use assertion-based tests so the learner can verify their work.
-- Prefer small, fast examples over big datasets.
+- Prefer compact, fast examples over large datasets, but size decision-making experiments so their metrics are interpretable. A structural smoke check may use a tiny slice; a training-strategy comparison must use the complete prepared train/validation split by default.
+- For imbalanced synthetic tasks, print train and validation class support and give the validation split enough observations in every class that one prediction does not dominate a per-class metric. As a practical notebook target, use at least 10 validation observations per class when runtime permits; if that is not possible, call out the limitation beside the result.
+- Keep controlled training comparisons aligned on data split, initialization, epochs, and observations per epoch. Show the main metric, per-class metrics, and change from the baseline immediately after the comparison function runs. Do not assert that a particular strategy must win.
 - For CV notebooks, always check shape, dtype, device, and label mapping where relevant.
 
 ## Validation Checklist
@@ -85,6 +93,7 @@ Before committing new notebooks:
 - Confirm generated file-based fixtures exist on disk when the notebook relies on them.
 - Confirm practice notebooks contain TODOs and solution notebooks contain full code.
 - Confirm every learner-implementation cell includes and runs an immediate smoke check; final test cells are additional verification and do not replace per-cell calls.
+- Confirm training-decision cells use the complete prepared split (unless explicitly labeled as a speed-only smoke check), report class support, and expose baseline deltas or another direct comparison of outcomes.
 - Confirm no unrelated files are staged.
 
 ## Git Workflow

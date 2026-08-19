@@ -1,0 +1,5 @@
+path: _day31_yolo_data
+train: train.txt
+val: val.txt
+nc: 2
+names: [warm_square, cool_square]
