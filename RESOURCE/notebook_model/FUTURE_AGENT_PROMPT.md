@@ -11,6 +11,7 @@ Before creating notebooks:
 - Read `[OLP AI] Masterplan - Tu's Plan.csv`.
 - Read `RESOURCE/library.png` and use it as the import allowlist for notebook code.
 - Read `RESOURCE/notebook_model/PRETRAINED_MODEL_POLICY.md`; check allowlisted official model catalogs before writing any architecture from scratch.
+- For competition workflows, prefer a custom file-backed Dataset, deterministic task-appropriate K-fold/OOF validation, and fold-model test ensembling. Use `StratifiedKFold` for independent single-label samples, but choose group-aware or multilabel/task-specific logic when that assumption is false. Do not default to `train_test_split`, `TensorDataset`, or bare `Subset` when the lesson is an end-to-end competition pipeline.
 - Read `notebook_model/README.md`.
 - Read `notebook_model/NOTEBOOK_SPEC.md`.
 
