@@ -1,0 +1,7 @@
+record_index,image_path,signature,fold
+0,images\image_00.png,0+1,0
+1,images\image_01.png,0,0
+2,images\image_02.png,0+1,2
+3,images\image_03.png,0,2
+4,images\image_04.png,0+1,1
+5,images\image_05.png,0,1
