@@ -1,0 +1,1833 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer Vision Competition — 10-Day Offline Workbook</title>
+<style>@page {
+  size: A4;
+  margin: 12mm 14mm 15mm 14mm;
+  @bottom-left {
+    content: "OLP AI · Offline CV Competition Workbook";
+    color: #64748b;
+    font-size: 7.5pt;
+  }
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    color: #64748b;
+    font-size: 7.5pt;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  color: #172033;
+  font-family: "Segoe UI", "DejaVu Sans", Arial, sans-serif;
+  font-size: 8.8pt;
+  line-height: 1.31;
+}
+
+body { margin: 0; }
+
+.cover {
+  min-height: 250mm;
+  padding: 24mm 11mm 10mm;
+  border: 2.5pt solid #183b63;
+  background: linear-gradient(145deg, #f7fbff 0%, #ffffff 52%, #eef5fb 100%);
+}
+
+.cover h1 {
+  margin: 15mm 0 4mm;
+  color: #123a63;
+  font-size: 28pt;
+  line-height: 1.05;
+  letter-spacing: -0.5pt;
+}
+
+.cover h2 {
+  color: #1d5b8f;
+  font-size: 18pt;
+  border: 0;
+  margin: 0 0 7mm;
+}
+
+.cover h3 {
+  color: #334155;
+  font-size: 12pt;
+  font-weight: 600;
+  margin-bottom: 18mm;
+}
+
+.pagebreak { break-after: page; height: 0; }
+
+h1 {
+  color: #123a63;
+  font-size: 19pt;
+  line-height: 1.12;
+  margin: 0 0 4mm;
+  padding-bottom: 2.5mm;
+  border-bottom: 1.5pt solid #8eb6d8;
+}
+
+h2 {
+  color: #1b527e;
+  font-size: 13pt;
+  line-height: 1.18;
+  margin: 4mm 0 1.7mm;
+  break-after: avoid;
+}
+
+h3 {
+  color: #334155;
+  font-size: 10.5pt;
+  margin: 3mm 0 1.3mm;
+  break-after: avoid;
+}
+
+p { margin: 1.2mm 0 1.8mm; }
+
+ul, ol {
+  margin: 1.2mm 0 2mm 5mm;
+  padding-left: 4mm;
+}
+
+li { margin: 0.45mm 0; }
+
+strong { color: #102f4b; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2mm 0 3mm;
+  font-size: 7.8pt;
+  break-inside: avoid;
+}
+
+th {
+  background: #dcebf7;
+  color: #123a63;
+  font-weight: 700;
+  text-align: left;
+}
+
+th, td {
+  border: 0.55pt solid #9fb4c7;
+  padding: 1.5mm 1.8mm;
+  vertical-align: top;
+}
+
+tr:nth-child(even) td { background: #f7fafc; }
+
+pre {
+  background: #f2f5f8;
+  border: 0.6pt solid #b7c6d3;
+  border-left: 3pt solid #3977a8;
+  border-radius: 2px;
+  color: #172033;
+  font-family: Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 7.1pt;
+  line-height: 1.24;
+  margin: 1.8mm 0 2.6mm;
+  padding: 1.9mm 2.3mm;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  break-inside: avoid;
+}
+
+code {
+  font-family: Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 0.9em;
+  color: #793f16;
+}
+
+pre code { color: inherit; font-size: inherit; }
+
+blockquote {
+  margin: 2.5mm 0;
+  padding: 2mm 3mm;
+  border-left: 3pt solid #d39b32;
+  background: #fff9ea;
+}
+
+hr {
+  border: 0;
+  border-top: 0.6pt solid #b7c6d3;
+  margin: 4mm 0;
+}
+
+a { color: #1d5b8f; text-decoration: none; }
+
+/* Keep short exercise prompts attached to their answer space. */
+h2 + p, h3 + p { break-before: avoid; }
+
+/* Avoid isolated headers and small fragments where possible. */
+h1, h2, h3, table, pre { orphans: 3; widows: 3; }
+
+@media print {
+  a { color: inherit; }
+}
+</style>
+</head>
+<body><div class="cover">
+<h1>Computer Vision Competition Workbook</h1>
+<h2>A 10-day offline field guide</h2>
+<h3>Image classification · Object detection · Semantic segmentation · Instance segmentation</h3>
+<p>Built from the study notebooks and competition rules in this repository.</p>
+<p><strong>Purpose:</strong> ten focused study sessions without a computer or phone. Read actively, write code by hand, solve the diagnostics, and leave each day with one reusable competition decision.</p>
+<p><strong>Default competition stance</strong></p>
+<ul>
+<li>Make the validation trustworthy before making the model large.</li>
+<li>Prefer an official architecture from an allowed library.</li>
+<li>Default to <code>weights=None</code>; pretrained checkpoints are optional, must be available offline, and must be legal.</li>
+<li>Cache validation predictions once; tune post-processing from the cache.</li>
+<li>Inspect per-class errors, not only one headline score.</li>
+<li>Treat every submission as a data-engineering artifact that must be audited.</li>
+</ul>
+<p>Name: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p>Trip dates: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p>Target competition: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+</div>
+<div class="pagebreak"></div>
+
+<h1>How to use this workbook</h1>
+<p>Each day is designed for roughly 60–90 minutes. No execution is required. The work alternates between recall, code tracing, metric calculation, and competition decisions.</p>
+<h2>Daily rhythm</h2>
+<ol>
+<li><strong>Recall — 10 minutes.</strong> Close the workbook and write everything you remember about the topic.</li>
+<li><strong>Study — 25 minutes.</strong> Read the core notes and annotate them.</li>
+<li><strong>Code by hand — 20 minutes.</strong> Complete the skeleton without looking at the answer key.</li>
+<li><strong>Competition drill — 20 minutes.</strong> Solve the scenario and justify the decision.</li>
+<li><strong>Exit ticket — 5 minutes.</strong> Write the three things you would implement first in a real notebook.</li>
+</ol>
+<p>Do not merely copy code. For every tensor, write its shape, dtype, device, and label meaning. For every metric, write what kind of failure can change it.</p>
+<h2>Ten-day route</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Day</th>
+<th>Focus</th>
+<th>Artifact you should be able to reproduce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Competition framing and validation</td>
+<td>Leakage-safe split and baseline plan</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Image classification baseline</td>
+<td>Dataset → model → Macro-F1 pipeline</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Classification improvements</td>
+<td>Imbalance, augmentation, TTA, error-analysis decision</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>Detection foundations</td>
+<td>Box conversion, IoU, NMS, target audit</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>Detection experiment</td>
+<td>Offline Faster R-CNN training and threshold plan</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>Semantic segmentation foundations</td>
+<td>Mask contract, confusion matrix, per-class IoU</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>DeepLabV3 experiment</td>
+<td>Offline training, validation, and logit ensemble plan</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>Instance-segmentation data</td>
+<td>Instance-ID decoding and stratified folds</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Mask R-CNN experiment</td>
+<td>Five-loss training and prediction cache</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>OOF, ensembling, submission</td>
+<td>End-to-end competition playbook</td>
+</tr>
+</tbody>
+</table>
+<h2>Repository-aligned model choices</h2>
+<p>These are strong, allowed baselines—not universal winners.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Default architecture</th>
+<th>Offline constructor principle</th>
+<th>Primary local metric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classification</td>
+<td>Torchvision ResNet or compact CNN</td>
+<td><code>weights=None</code></td>
+<td>Macro-F1 + per-class recall</td>
+</tr>
+<tr>
+<td>Detection</td>
+<td><code>fasterrcnn_resnet50_fpn_v2</code></td>
+<td><code>weights=None, weights_backbone=None</code></td>
+<td>mAP / class-aware F1 at chosen IoU</td>
+</tr>
+<tr>
+<td>Semantic segmentation</td>
+<td><code>deeplabv3_resnet50</code></td>
+<td><code>weights=None, weights_backbone=None</code></td>
+<td>mean IoU + per-class IoU</td>
+</tr>
+<tr>
+<td>Instance segmentation</td>
+<td><code>maskrcnn_resnet50_fpn_v2</code></td>
+<td><code>weights=None, weights_backbone=None</code></td>
+<td>official mask AP; local mask-IoU F1</td>
+</tr>
+</tbody>
+</table>
+<h2>The competition loop</h2>
+<pre><code class="language-text">rules → data audit → split manifest → file-backed Dataset
+      → smallest legal baseline → OOF prediction cache
+      → metric + per-class/slice errors → one controlled change
+      → fold models → test ensemble → submission audit
+</code></pre>
+<p>The arrow back from error analysis should change exactly one important assumption at a time. If the split, initialization, epochs, and evaluation distribution also change, the comparison no longer answers a clean question.</p>
+<div class="pagebreak"></div>
+
+<h1>Day 1 — Frame the task and protect validation</h1>
+<h2>Learning goal</h2>
+<p>Turn an unfamiliar computer-vision dataset into a trustworthy experiment plan before training anything.</p>
+<h2>1. Start from the score and output format</h2>
+<p>Write down these five contracts:</p>
+<ol>
+<li><strong>Input unit:</strong> one image, one crop, one video, or a group of related images?</li>
+<li><strong>Target unit:</strong> one class, many boxes, one class mask, or many instance masks?</li>
+<li><strong>Metric:</strong> what is averaged, and which errors matter equally?</li>
+<li><strong>Submission unit:</strong> one row per image, per class, per box, or per instance?</li>
+<li><strong>Constraints:</strong> allowed imports, time, memory, internet, and pretrained-weight legality.</li>
+</ol>
+<p>A model can be accurate and still score zero if IDs are reordered, background labels are wrong, box coordinates use the wrong convention, or RLE flattening is reversed.</p>
+<h2>2. Identify the leakage unit</h2>
+<p>The row in a CSV is not always an independent sample. Images may share patient, product, scene, original video, camera burst, or augmented source.</p>
+<table>
+<thead>
+<tr>
+<th>Data relationship</th>
+<th>Required split idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Independent, single-label images</td>
+<td><code>StratifiedKFold</code></td>
+</tr>
+<tr>
+<td>Several images per patient/product/video</td>
+<td>Group-aware split; stratify groups if possible</td>
+</tr>
+<tr>
+<td>Detection or segmentation with many labels per image</td>
+<td>Documented proxy or iterative multilabel split</td>
+</tr>
+<tr>
+<td>Time-ordered deployment</td>
+<td>Forward/temporal validation</td>
+</tr>
+<tr>
+<td>Organizer gives a fixed validation set</td>
+<td>Preserve it exactly</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Non-negotiable invariants</strong></p>
+<ul>
+<li>Every training observation appears in exactly one OOF validation fold.</li>
+<li>No leakage group crosses train/validation.</li>
+<li>Fold membership is stored by stable sample ID.</li>
+<li>Validation receives no oversampling and no random augmentation.</li>
+<li>Preprocessing learned from data is fit on training only.</li>
+</ul>
+<h2>3. Audit before modeling</h2>
+<p>For every task, inspect:</p>
+<ul>
+<li>missing/corrupt files;</li>
+<li>duplicate IDs and duplicate pixels;</li>
+<li>image sizes, channels, dtype, and color order;</li>
+<li>label mapping and background convention;</li>
+<li>class support by fold;</li>
+<li>small-object or small-region frequency;</li>
+<li>empty images/masks;</li>
+<li>train/test distribution shifts;</li>
+<li>annotation validity.</li>
+</ul>
+<h3>Task-specific annotation checks</h3>
+<p><strong>Classification:</strong> exactly one known label per row; stable <code>class_name ↔ class_id</code> mapping.</p>
+<p><strong>Detection:</strong> <code>x1 &lt; x2</code>, <code>y1 &lt; y2</code>; boxes are inside the image; label count equals box count.</p>
+<p><strong>Semantic segmentation:</strong> mask size matches image size; values belong to <code>{0,…,C−1}</code> plus optional <code>ignore_index</code>.</p>
+<p><strong>Instance segmentation:</strong> each nonzero instance ID corresponds to exactly one class; masks are nonempty; derived boxes have positive area.</p>
+<h2>4. Baseline budget</h2>
+<p>Write the smallest experiment that can falsify your assumptions:</p>
+<pre><code class="language-text">data audit:        ______ minutes
+one split/fold:    ______ minutes
+one train epoch:   ______ minutes
+full validation:  ______ minutes
+error report:      ______ minutes
+submission smoke: ______ minutes
+</code></pre>
+<p>Reserve time for failures. A useful competition budget often spends more time on validation, prediction caching, and submission auditing than beginners expect.</p>
+<h2>Handwritten exercise 1A — choose the split</h2>
+<p>For each case, name the splitter and the stratification/group key.</p>
+<ol>
+<li>8,000 wildlife images; five frames may come from the same camera burst; single class per image.</li>
+<li>1,200 pathology tiles from 80 patients; one patient has many tiles.</li>
+<li>900 detection images; each image may contain cars, bikes, and people; many are empty.</li>
+<li>Road segmentation frames recorded in chronological drives.</li>
+</ol>
+<p>Your answers:</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<h2>Handwritten exercise 1B — write the fold audit</h2>
+<p>Complete the invariants:</p>
+<pre><code class="language-python">assert fold_table[&quot;image_id&quot;].________________
+assert set(fold_table[&quot;fold&quot;]) == __________________
+assert train_ids.________________(validation_ids)
+assert len(train_ids | validation_ids) == __________________
+</code></pre>
+<h2>Competition drill</h2>
+<p>Your public leaderboard rises after you tune a threshold on the test predictions’ class distribution. Your local OOF score is unchanged.</p>
+<ul>
+<li>What information leaked? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</li>
+<li>Why is the improvement unreliable? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</li>
+<li>What should select the threshold instead? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</li>
+</ul>
+<h2>Exit ticket</h2>
+<p>My leakage unit is likely: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p>My primary metric and two supporting metrics are: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p>The first three audit tables I will create are: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<div class="pagebreak"></div>
+
+<h1>Day 2 — Build the image-classification baseline</h1>
+<h2>Learning goal</h2>
+<p>Reproduce the complete classification boundary: records, label mapping, transforms, model, loss, and Macro-F1.</p>
+<h2>1. Dataset contract</h2>
+<p>The file-backed Dataset should own path loading, RGB conversion, transforms, and target parsing.</p>
+<pre><code class="language-text">input row:  image_id, image_path, class_name, fold
+output:     image float32 [C,H,W], class_id int64 scalar
+range:      normally [0,1] before normalization
+mapping:    class_to_id saved with the checkpoint
+</code></pre>
+<p>The validation transform is deterministic. A standard pair is:</p>
+<pre><code class="language-python">train_tf = v2.Compose([
+    v2.RandomResizedCrop((SIZE, SIZE), scale=(0.75, 1.0)),
+    v2.RandomHorizontalFlip(0.5),
+    v2.ColorJitter(0.15, 0.15, 0.15, 0.05),
+    v2.ToImage(), v2.ToDtype(torch.float32, scale=True),
+    v2.Normalize(mean=MEAN, std=STD),
+])
+
+val_tf = v2.Compose([
+    v2.Resize((SIZE, SIZE)),
+    v2.ToImage(), v2.ToDtype(torch.float32, scale=True),
+    v2.Normalize(mean=MEAN, std=STD),
+])
+</code></pre>
+<p>Use only label-preserving transforms. Horizontal flip is unsafe when left/right orientation changes the class.</p>
+<h2>2. Model boundary</h2>
+<p>For an offline competition, start with an official architecture and random weights:</p>
+<pre><code class="language-python">model = resnet18(weights=None)
+model.fc = nn.Linear(model.fc.in_features, num_classes)
+</code></pre>
+<p>If a legal checkpoint is attached, use it explicitly and record its provenance. Do not let <code>DEFAULT</code> trigger an unexpected network download.</p>
+<p>For small data, compare:</p>
+<ul>
+<li>frozen backbone + new head;</li>
+<li>later unfreeze the final block with a lower learning rate;</li>
+<li>full random-initialization training if no checkpoint exists.</li>
+</ul>
+<h2>3. Train/evaluate semantics</h2>
+<pre><code class="language-python">model.train()
+for images, labels in train_loader:
+    logits = model(images.to(device))          # [B,C]
+    loss = criterion(logits, labels.to(device))
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+model.eval()
+with torch.inference_mode():
+    logits = model(images.to(device))
+    probabilities = logits.softmax(dim=1)
+</code></pre>
+<p><code>CrossEntropyLoss</code> consumes raw logits and <code>int64 [B]</code> class indices. Do not apply softmax before the loss.</p>
+<h2>4. Metric hierarchy</h2>
+<p>For class <code>c</code>:</p>
+<pre><code class="language-text">precision_c = TP_c / (TP_c + FP_c)
+recall_c    = TP_c / (TP_c + FN_c)
+F1_c        = 2·precision_c·recall_c / (precision_c + recall_c)
+Macro-F1    = mean(F1_c over classes)
+</code></pre>
+<p>Accuracy weights common classes more heavily. Macro-F1 gives each class one equal vote, even when support differs.</p>
+<p>Always print:</p>
+<ul>
+<li>validation support per class;</li>
+<li>accuracy and Macro-F1;</li>
+<li>per-class precision/recall/F1;</li>
+<li>confusion matrix;</li>
+<li>OOF row count and unique ID count.</li>
+</ul>
+<h2>Handwritten exercise 2A — finish the Dataset</h2>
+<pre><code class="language-python">class ImageDataset(Dataset):
+    def __getitem__(self, index):
+        row = self.rows.iloc[index]
+        image = Image.open(row[&quot;____________&quot;]).convert(&quot;___&quot;)
+        image = self.transform(image)
+        label = torch.tensor(
+            self.class_to_id[row[&quot;____________&quot;]], dtype=torch.________
+        )
+        return ____________, ____________
+</code></pre>
+<p>Write the output shape/dtype:</p>
+<p>Image: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>  Label: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Handwritten exercise 2B — confusion matrix</h2>
+<p>Ground truth: <code>[0, 0, 1, 1, 1, 2]</code></p>
+<p>Prediction:   <code>[0, 1, 1, 1, 2, 2]</code></p>
+<p>Using rows=true and columns=predicted, fill:</p>
+<table>
+<thead>
+<tr>
+<th>True \ Pred</th>
+<th style="text-align: right;">0</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>1</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Which class has the weakest recall? <strong><em>_</em></strong>_____</p>
+<h2>Competition drill</h2>
+<p>Training loss falls, validation accuracy rises, but Macro-F1 falls. List two plausible causes and one diagnostic for each.</p>
+<ol>
+<li>
+<p>Cause: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em> Diagnostic: </strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+</li>
+<li>
+<p>Cause: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em> Diagnostic: </strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+</li>
+</ol>
+<h2>Exit ticket</h2>
+<p>Write from memory the six objects needed for a baseline:</p>
+<p>records → <strong><em>_</em></strong><strong><em>_</em></strong> → <strong><em>_</em></strong><strong><em>_</em></strong> → <strong><em>_</em></strong><strong><em>_</em></strong> → <strong><em>_</em></strong><strong><em>_</em></strong> → metrics</p>
+<div class="pagebreak"></div>
+
+<h1>Day 3 — Improve classification without fooling yourself</h1>
+<h2>Learning goal</h2>
+<p>Choose among weighted loss, weighted sampling, augmentation, TTA, and error-driven changes using controlled evidence.</p>
+<h2>1. Imbalance strategies</h2>
+<p><strong>Stratification is not balancing.</strong> It preserves class proportions in each fold. Balancing changes training exposure or loss contribution.</p>
+<h3>Weighted loss</h3>
+<p>Compute counts from the training fold only. A common balanced weight is:</p>
+<pre><code class="language-text">w_c = N / (C · count_c)
+</code></pre>
+<pre><code class="language-python">weights = compute_class_weight(&quot;balanced&quot;, classes=class_ids, y=train_labels)
+criterion = nn.CrossEntropyLoss(
+    weight=torch.tensor(weights, dtype=torch.float32, device=device)
+)
+</code></pre>
+<p>Risks: noisy rare labels gain influence; huge weights can destabilize training.</p>
+<h3>Weighted sampling</h3>
+<p>Convert class weights to one weight per training observation:</p>
+<pre><code class="language-python">sample_weights = class_weights[train_labels]
+sampler = WeightedRandomSampler(
+    sample_weights, num_samples=len(train_labels), replacement=True
+)
+</code></pre>
+<p>Use <code>sampler=...</code>, not <code>shuffle=True</code>. Keep observations per epoch equal when comparing with the baseline.</p>
+<p>Risks: repeated minority examples overfit; the observed training distribution no longer matches validation.</p>
+<h3>Decision rule</h3>
+<ul>
+<li>Start with plain CE.</li>
+<li>Try weighted CE when rare-class misses dominate.</li>
+<li>Try sampling when minority examples rarely reach batches.</li>
+<li>Do not combine both blindly; the correction may be doubled.</li>
+<li>Never rebalance validation.</li>
+</ul>
+<h2>2. Controlled experiment table</h2>
+<p>Fill one row per run:</p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Split ID</th>
+<th style="text-align: right;">Init seed</th>
+<th style="text-align: right;">Epochs</th>
+<th style="text-align: right;">Images/epoch</th>
+<th>Main change</th>
+<th style="text-align: right;">Macro-F1</th>
+<th style="text-align: right;">Rare recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td>plain CE</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>Weighted loss</td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td>loss only</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>Sampler</td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td>loader only</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>If more than the “main change” differs, the comparison is observational, not controlled.</p>
+<h2>3. Error analysis loop</h2>
+<p>Create one OOF record per image:</p>
+<pre><code class="language-text">image_id, fold, true_id, pred_id, confidence,
+probabilities, loss, metadata slices
+</code></pre>
+<p>Then inspect:</p>
+<ol>
+<li>highest-confidence wrong predictions;</li>
+<li>top confusion pairs;</li>
+<li>low-confidence correct predictions;</li>
+<li>performance by blur, brightness, size, source, or camera;</li>
+<li>suspected label errors and duplicates.</li>
+</ol>
+<p>Map errors to changes:</p>
+<table>
+<thead>
+<tr>
+<th>Error pattern</th>
+<th>Candidate change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orientation sensitivity</td>
+<td>Safe flip/rotation augmentation</td>
+</tr>
+<tr>
+<td>Tiny discriminative region</td>
+<td>Larger input or crop policy</td>
+</tr>
+<tr>
+<td>Rare class ignored</td>
+<td>Weighted loss or sampler</td>
+</tr>
+<tr>
+<td>Similar classes confused</td>
+<td>More resolution, targeted examples, label audit</td>
+</tr>
+<tr>
+<td>Confidence too high</td>
+<td>Calibration, label smoothing, stronger validation</td>
+</tr>
+<tr>
+<td>Train good, validation poor</td>
+<td>regularization, more data, simpler model, leakage audit</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Test-time augmentation</h2>
+<p>TTA is an inference ensemble. Apply label-preserving transforms, reverse spatial transforms if needed, and average comparable outputs.</p>
+<p>For classification:</p>
+<pre><code class="language-python">p = 0.5 * softmax(model(x)) + 0.5 * softmax(model(horizontal_flip(x)))
+</code></pre>
+<p>Measure both score and latency. Never assume TTA helps.</p>
+<h2>Handwritten exercise 3A — calculate weights</h2>
+<p>Training counts are <code>[80, 16, 4]</code>, so <code>N=100</code>, <code>C=3</code>.</p>
+<p><code>w_0 =</code> <strong><em>_</em></strong><strong><em>  <code>w_1 =</code> </em></strong><strong><em>_</em></strong>  <code>w_2 =</code> <strong><em>_</em></strong>___</p>
+<p>Which class contributes most per example? <strong><em>_</em></strong>___</p>
+<h2>Handwritten exercise 3B — choose a strategy</h2>
+<p>Minority recall is 0.10. Weighted loss raises it to 0.48 but lowers majority recall from 0.92 to 0.55. Sampler gives minority recall 0.39 and majority recall 0.86. Macro-F1 values are 0.44, 0.56, and 0.63 respectively.</p>
+<p>Which run is the current winner? <strong><em>_</em></strong><strong><em> Why? </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p>What evidence would make you reject it? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<h2>Competition drill</h2>
+<p>Your TTA score is +0.002 Macro-F1 but inference is 2.1× slower and the time limit is tight. Write the decision:</p>
+<hr>
+<h2>Exit ticket</h2>
+<p>My default imbalance sequence is: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p>My top three error-analysis slices are: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<div class="pagebreak"></div>
+
+<h1>Day 4 — Object-detection foundations</h1>
+<h2>Learning goal</h2>
+<p>Audit detection targets and reason correctly about box formats, IoU, NMS, and class-aware matching.</p>
+<h2>1. Box conventions</h2>
+<p><strong>XYXY:</strong> <code>(x1, y1, x2, y2)</code> corners in pixels.</p>
+<p><strong>XYWH:</strong> <code>(x, y, width, height)</code>; confirm whether <code>(x,y)</code> is top-left or center.</p>
+<p><strong>YOLO normalized:</strong> <code>(class, cx/W, cy/H, width/W, height/H)</code>.</p>
+<p>YOLO normalized to pixel XYXY:</p>
+<pre><code class="language-text">cx = cx_n·W      cy = cy_n·H
+bw = w_n·W       bh = h_n·H
+x1 = cx − bw/2   y1 = cy − bh/2
+x2 = cx + bw/2   y2 = cy + bh/2
+</code></pre>
+<p>Clip to the image only after understanding why coordinates are outside. Silent clipping can hide annotation bugs.</p>
+<h2>2. IoU</h2>
+<pre><code class="language-text">intersection width  = max(0, min(x2A,x2B) − max(x1A,x1B))
+intersection height = max(0, min(y2A,y2B) − max(y1A,y1B))
+IoU = intersection / (areaA + areaB − intersection)
+</code></pre>
+<p>IoU is 0 for no overlap and 1 for identical boxes. A higher evaluation threshold requires tighter localization.</p>
+<h2>3. Non-maximum suppression</h2>
+<p>NMS removes duplicate predictions, not ground truth.</p>
+<ol>
+<li>Filter low scores.</li>
+<li>Process each class separately.</li>
+<li>Keep the highest score.</li>
+<li>Suppress remaining same-class boxes with IoU above the NMS threshold.</li>
+<li>Repeat.</li>
+</ol>
+<p>Low NMS threshold suppresses aggressively and may delete nearby objects. High threshold preserves objects but allows duplicates.</p>
+<h2>4. Torchvision target contract</h2>
+<p>For one image:</p>
+<pre><code class="language-python">target = {
+    &quot;boxes&quot;:   float32[N,4],  # XYXY
+    &quot;labels&quot;:  int64[N],      # foreground starts at 1
+    &quot;image_id&quot;: int64[1],
+    &quot;area&quot;:    float32[N],
+    &quot;iscrowd&quot;: int64[N],
+}
+</code></pre>
+<p>Images are a list of <code>float32 [C,H,W]</code> tensors in <code>[0,1]</code>. A custom collator returns a tuple/list of images and targets because <code>N</code> varies.</p>
+<p>Use <code>tv_tensors.BoundingBoxes</code> and Torchvision <code>v2</code> transforms so geometric augmentation updates boxes with the image.</p>
+<h2>5. Detection validation proxy</h2>
+<p>Single-label stratification does not directly fit multi-object images. Possible documented proxies:</p>
+<ul>
+<li>rarest class present;</li>
+<li>sorted class-presence signature;</li>
+<li>dominant class + object-count bin;</li>
+<li>empty/nonempty + object-count bin.</li>
+</ul>
+<p>If images share scenes/videos/patients, group separation outranks perfect proxy balance.</p>
+<h2>Handwritten exercise 4A — convert a box</h2>
+<p>Image is <code>W=200</code>, <code>H=100</code>. YOLO row is <code>class=2, cx_n=.50, cy_n=.40, w_n=.20, h_n=.30</code>.</p>
+<p>Pixel center: <code>(______, ______)</code></p>
+<p>Pixel size: <code>(______, ______)</code></p>
+<p>XYXY: <code>(______, ______, ______, ______)</code></p>
+<h2>Handwritten exercise 4B — IoU</h2>
+<p>Box A <code>(0,0,10,10)</code>, Box B <code>(5,0,15,10)</code>.</p>
+<p>Intersection area: <strong><em>_</em>_  Union area: </strong><strong><em>_  IoU: </em></strong>___</p>
+<h2>Handwritten exercise 4C — NMS</h2>
+<p>Same class predictions:</p>
+<ul>
+<li>A score .90, overlaps B at .70</li>
+<li>B score .80, overlaps C at .10</li>
+<li>C score .60, overlaps A at .05</li>
+</ul>
+<p>At NMS IoU <code>.50</code>, kept boxes are: <strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p>What changes if B belongs to a different class? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<h2>Competition drill</h2>
+<p>Boxes look correct on 10 images, but mAP is near zero. List four contract errors to test before changing the model.</p>
+<ol>
+<li>
+<p><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em>  2. </strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+</li>
+<li>
+<p><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em>  4. </strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+</li>
+</ol>
+<h2>Exit ticket</h2>
+<p>Write the detection target keys from memory: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<div class="pagebreak"></div>
+
+<h1>Day 5 — Run a real detection experiment</h1>
+<h2>Learning goal</h2>
+<p>Design an offline Faster R-CNN experiment whose losses, prediction cache, and threshold choice answer useful questions.</p>
+<h2>1. Why Faster R-CNN ResNet50-FPN V2</h2>
+<p>The repository uses Torchvision’s official V2 builder as an accuracy-first general detector. It has:</p>
+<ul>
+<li>ResNet50 feature extractor;</li>
+<li>FPN multi-scale feature maps;</li>
+<li>RPN object proposals;</li>
+<li>ROI classification and box regression heads.</li>
+</ul>
+<p>For restricted/offline use:</p>
+<pre><code class="language-python">model = fasterrcnn_resnet50_fpn_v2(
+    weights=None,
+    weights_backbone=None,
+    num_classes=NUM_CLASSES,       # includes background
+    min_size=IMAGE_SIZE,
+    max_size=IMAGE_SIZE,
+)
+</code></pre>
+<p>Random initialization is slower to learn, but the API and target boundary stay competition-relevant.</p>
+<h2>2. Training-mode contract</h2>
+<pre><code class="language-python">model.train()
+losses = model(images, targets)
+</code></pre>
+<p>Expected losses:</p>
+<ul>
+<li><code>loss_classifier</code> — ROI class prediction;</li>
+<li><code>loss_box_reg</code> — ROI localization;</li>
+<li><code>loss_objectness</code> — RPN foreground/background;</li>
+<li><code>loss_rpn_box_reg</code> — RPN proposal localization.</li>
+</ul>
+<p>Sum them, reject non-finite values, backpropagate, and record each component separately.</p>
+<h2>3. Evaluation-mode contract</h2>
+<pre><code class="language-python">model.eval()
+with torch.inference_mode():
+    outputs = model(images)
+</code></pre>
+<p>Each output contains <code>boxes [P,4]</code>, <code>labels [P]</code>, and <code>scores [P]</code> on the model device. Cache them on CPU with the stable image ID and ground truth.</p>
+<h2>4. Small-object tuning surface</h2>
+<p>FPN defaults can be poor for tiny custom objects. Inspect:</p>
+<ul>
+<li>input resolution;</li>
+<li>anchor sizes and aspect ratios;</li>
+<li>RPN proposals before/after NMS;</li>
+<li>RPN NMS threshold;</li>
+<li>detection score floor;</li>
+<li>ROI NMS threshold;</li>
+<li>detections per image.</li>
+</ul>
+<p>Change one coherent hypothesis at a time. Example: “objects are smaller than the smallest useful default anchor” justifies smaller anchors and perhaps more retained proposals.</p>
+<h2>5. Evaluation and threshold sweep</h2>
+<p>For each class:</p>
+<ol>
+<li>sort predictions globally or per image according to the metric;</li>
+<li>match only same-class boxes;</li>
+<li>match each ground truth at most once;</li>
+<li>unmatched prediction = FP;</li>
+<li>unmatched ground truth = FN.</li>
+</ol>
+<p>Cache predictions at a low model score floor. Sweep an operating threshold from the cache. Report precision, recall, F1, mAP50, and mAP75 where applicable. Use the official competition scorer for final selection.</p>
+<h2>Handwritten exercise 5A — fill the update</h2>
+<pre><code class="language-python">model.________()
+loss_dict = model(device_images, device_targets)
+loss = ______________________________
+optimizer.______________()
+loss.______________()
+optimizer.______________()
+</code></pre>
+<p>Why must targets move to the same device? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<h2>Handwritten exercise 5B — diagnose losses</h2>
+<p>After five epochs:</p>
+<ul>
+<li>classifier loss falls quickly;</li>
+<li>objectness falls;</li>
+<li>box losses remain flat;</li>
+<li>qualitative boxes are badly shifted.</li>
+</ul>
+<p>Write three checks before increasing epochs:</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<h2>Handwritten exercise 5C — threshold tradeoff</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Score threshold</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">.10</td>
+<td style="text-align: right;">.42</td>
+<td style="text-align: right;">.91</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">.30</td>
+<td style="text-align: right;">.66</td>
+<td style="text-align: right;">.73</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">.60</td>
+<td style="text-align: right;">.88</td>
+<td style="text-align: right;">.40</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Calculate the three F1 values. Which threshold would you choose if the metric is F1? ______</p>
+<h2>Competition drill</h2>
+<p>Validation has only two examples of the rare class. mAP varies wildly by fold. Write a better data/validation response—not a model response.</p>
+<hr>
+<h2>Exit ticket</h2>
+<p>The four detection losses are: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<p>The three small-object controls I will inspect first are: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<div class="pagebreak"></div>
+
+<h1>Day 6 — Semantic-segmentation foundations</h1>
+<h2>Learning goal</h2>
+<p>Reason about dense targets, DeepLab outputs, ignore regions, and IoU from first principles.</p>
+<h2>1. Semantic target contract</h2>
+<p>Semantic segmentation assigns one class to each pixel, but does not separate two objects of the same class.</p>
+<pre><code class="language-text">image batch:  float32 [N,3,H,W]
+logits:       float32 [N,C,H,W]
+target mask:  int64   [N,H,W]
+prediction:   argmax(logits, dim=1) → int64 [N,H,W]
+</code></pre>
+<p><code>CrossEntropyLoss</code> consumes raw logits and class-index targets. Do not one-hot encode the target for ordinary multiclass segmentation.</p>
+<p>An optional <code>ignore_index</code> excludes void/unlabeled pixels from loss and metrics. Background is usually a real class, not automatically ignored.</p>
+<h2>2. DeepLabV3 mental model</h2>
+<p>DeepLabV3 combines a backbone with atrous/dilated convolution and an ASPP classifier to collect context at several receptive fields.</p>
+<p>Torchvision returns a dictionary:</p>
+<pre><code class="language-python">outputs = model(images)
+main_logits = outputs[&quot;out&quot;]
+aux_logits = outputs.get(&quot;aux&quot;)
+</code></pre>
+<p>The auxiliary head helps training; use the main output for final inference.</p>
+<p>Offline builder:</p>
+<pre><code class="language-python">model = deeplabv3_resnet50(
+    weights=None,
+    weights_backbone=None,
+    num_classes=NUM_CLASSES,
+    aux_loss=True,
+)
+</code></pre>
+<p>If adapting a pretrained model, replace both main and auxiliary final classifiers.</p>
+<h2>3. Pixel confusion and IoU</h2>
+<p>For class <code>c</code>:</p>
+<pre><code class="language-text">intersection_c = pixels where prediction=c AND target=c
+union_c        = pixels where prediction=c OR target=c
+IoU_c          = intersection_c / union_c
+mean IoU       = mean over documented classes
+</code></pre>
+<p>Pixel accuracy may look excellent when background dominates. Always report foreground IoUs and class support.</p>
+<p>If a class is absent from both prediction and target, define the competition’s convention: ignore it, treat as perfect, or treat as undefined. Do not hide this choice.</p>
+<h2>4. Geometric transforms</h2>
+<p>Image and mask must receive identical spatial transforms. Image interpolation may be bilinear; class masks require nearest-neighbor interpolation to preserve integer IDs.</p>
+<p>Photometric transforms apply only to the image. Validation remains deterministic.</p>
+<h2>Handwritten exercise 6A — shapes</h2>
+<p>For batch size 4, five classes, and 256×320 images:</p>
+<ul>
+<li>logits shape: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</li>
+<li>target shape/dtype: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</li>
+<li>prediction shape/dtype: <strong><em>_</em></strong><strong><em>_</em></strong>______</li>
+</ul>
+<p>Which dimension does <code>argmax</code> reduce? ______</p>
+<h2>Handwritten exercise 6B — IoU</h2>
+<p>For class 1: TP pixels = 30, FP pixels = 10, FN pixels = 20.</p>
+<p>Intersection = <strong><em>_</em>_  Union = </strong><strong><em>_  IoU = </em></strong>___</p>
+<p>Pixel accuracy is .94 but class-1 IoU is your answer above. What does this suggest?</p>
+<hr>
+<h2>Handwritten exercise 6C — find the bug</h2>
+<pre><code class="language-python">mask = resize(mask, interpolation=BILINEAR)
+target = torch.tensor(mask, dtype=torch.float32)
+loss = cross_entropy(logits.softmax(1), target)
+</code></pre>
+<p>Circle three errors and rewrite the correct intent:</p>
+<hr>
+<h2>Competition drill</h2>
+<p>A class occupies less than 0.1% of pixels. Name one validation change, one loss/data change, and one modeling/resolution change worth testing.</p>
+<p>Validation: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p>Loss/data: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p>Model/resolution: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<h2>Exit ticket</h2>
+<p>Write the semantic tensor contract from memory: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<div class="pagebreak"></div>
+
+<h1>Day 7 — Train and compare DeepLabV3 models</h1>
+<h2>Learning goal</h2>
+<p>Design a fair semantic-segmentation experiment with offline initialization, parameter groups, per-class IoU, and aligned logit ensembling.</p>
+<h2>1. Head training and fine-tuning</h2>
+<p>A staged plan:</p>
+<ol>
+<li>Build the official architecture with no checkpoint download.</li>
+<li>If using a legal checkpoint, replace main and auxiliary classifiers.</li>
+<li>Freeze the backbone for head-only training.</li>
+<li>Unfreeze the final backbone stage with a lower learning rate.</li>
+<li>Compare on the same folds, transforms, epochs, and input resolution.</li>
+</ol>
+<p>Parameter groups express intent:</p>
+<pre><code class="language-python">optimizer = torch.optim.SGD([
+    {&quot;params&quot;: model.classifier.parameters(), &quot;lr&quot;: 1e-2},
+    {&quot;params&quot;: model.aux_classifier.parameters(), &quot;lr&quot;: 5e-3},
+], momentum=0.9)
+</code></pre>
+<p>When the backbone is frozen, keep its BatchNorm behavior controlled; <code>model.train()</code> can otherwise update running statistics even if gradients are disabled.</p>
+<h2>2. Loss</h2>
+<pre><code class="language-python">outputs = model(images)
+main_loss = F.cross_entropy(outputs[&quot;out&quot;], masks, ignore_index=IGNORE)
+aux_loss = F.cross_entropy(outputs[&quot;aux&quot;], masks, ignore_index=IGNORE)
+loss = main_loss + 0.4 * aux_loss
+</code></pre>
+<p>Class-weighted loss or a region-aware sampling strategy can help rare classes, but validate on the untouched distribution and inspect false-positive expansion.</p>
+<h2>3. ResNet50 versus ResNet101</h2>
+<p>Compare with identical preprocessing and batch:</p>
+<ul>
+<li>parameter count;</li>
+<li>latency per image;</li>
+<li>peak memory;</li>
+<li>mean and per-class IoU;</li>
+<li>fold stability.</li>
+</ul>
+<p>The larger backbone is justified only when the metric gain fits the runtime/memory budget.</p>
+<h2>4. Segmentation ensemble</h2>
+<p>For aligned models and classes:</p>
+<pre><code class="language-python">ensemble_logits = torch.stack([logits_fold0, logits_fold1, logits_fold2]).mean(0)
+prediction = ensemble_logits.argmax(1)
+</code></pre>
+<p>Average logits or probabilities consistently before <code>argmax</code>. If spatial sizes differ, resize logits to the original evaluation size first. Never average hard class-ID masks.</p>
+<h2>5. Error slices</h2>
+<p>Inspect IoU by:</p>
+<ul>
+<li>class;</li>
+<li>object/region size;</li>
+<li>image brightness or weather;</li>
+<li>boundary distance;</li>
+<li>empty versus nonempty mask;</li>
+<li>source group.</li>
+</ul>
+<p>Boundary failures may need more resolution or boundary-aware post-processing; global class confusion may need label or feature changes.</p>
+<h2>Handwritten exercise 7A — replace both heads</h2>
+<pre><code class="language-python">model.classifier[-1] = nn.Conv2d(256, __________, 1)
+model.aux_classifier[-1] = nn.Conv2d(256, __________, 1)
+</code></pre>
+<p>Does <code>num_classes</code> include background? <strong><em>_</em>_ Why? </strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<h2>Handwritten exercise 7B — fair comparison</h2>
+<p>Circle every unfair difference:</p>
+<ul>
+<li>ResNet50 uses 256×256, 20 epochs, fold 0.</li>
+<li>ResNet101 uses 512×512, 35 epochs, fold 1.</li>
+<li>Both use the same metric function.</li>
+<li>ResNet101 uses TTA and ResNet50 does not.</li>
+</ul>
+<p>Rewrite a fair first comparison:</p>
+<hr>
+<h2>Handwritten exercise 7C — model choice</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">mIoU</th>
+<th style="text-align: right;">Rare IoU</th>
+<th style="text-align: right;">ms/image</th>
+<th style="text-align: right;">Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R50</td>
+<td style="text-align: right;">.612</td>
+<td style="text-align: right;">.301</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">2.7 GB</td>
+</tr>
+<tr>
+<td>R101</td>
+<td style="text-align: right;">.621</td>
+<td style="text-align: right;">.319</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">4.5 GB</td>
+</tr>
+</tbody>
+</table>
+<p>If the time limit allows at most 45 ms/image, choose: <strong><em>_</em></strong>___</p>
+<p>If offline inference has no time penalty, what else must you verify before choosing R101?</p>
+<hr>
+<h2>Competition drill</h2>
+<p>An ensemble improves mIoU but destroys a thin rare class. Write two diagnostics and one class-aware remedy.</p>
+<hr>
+<h2>Exit ticket</h2>
+<p>Main output key: <strong><em>_</em>_  Auxiliary output key: </strong><strong><em>_  Target dtype: </em></strong>___</p>
+<div class="pagebreak"></div>
+
+<h1>Day 8 — Build instance-segmentation data and folds</h1>
+<h2>Learning goal</h2>
+<p>Convert integer instance-ID masks into the full Mask R-CNN target schema and persist appropriate folds.</p>
+<h2>1. Instance versus semantic masks</h2>
+<p>Suppose two touching cars both have class “car.”</p>
+<ul>
+<li>Semantic mask: both regions contain the same class ID.</li>
+<li>Instance mask: the first region has instance ID 1, the second instance ID 2; a separate mapping gives both class “car.”</li>
+</ul>
+<p>A common file pair is:</p>
+<pre><code class="language-text">image.png       RGB image
+instance.png    0=background, 1..N=instance IDs
+labels.json     labels ordered by instance ID
+</code></pre>
+<p>Do not assume the instance ID is the class ID.</p>
+<h2>2. Decode target</h2>
+<pre><code class="language-python">instance_ids = [v for v in np.unique(instance_map) if v != 0]
+masks = torch.stack([
+    torch.from_numpy((instance_map == instance_id).astype(np.uint8))
+    for instance_id in instance_ids
+])
+labels = torch.tensor(instance_labels, dtype=torch.int64)
+boxes = masks_to_boxes(masks)
+</code></pre>
+<p>Complete target:</p>
+<pre><code class="language-python">target = {
+    &quot;boxes&quot;:   float32[N,4],
+    &quot;labels&quot;:  int64[N],
+    &quot;masks&quot;:   uint8[N,H,W],
+    &quot;image_id&quot;: int64[1],
+    &quot;area&quot;:    float32[N],
+    &quot;iscrowd&quot;: int64[N],
+}
+</code></pre>
+<p>Check <code>len(boxes) == len(labels) == len(masks)</code>.</p>
+<h2>3. Synchronized transforms</h2>
+<p>Wrap structures as <code>tv_tensors.Image</code>, <code>tv_tensors.Mask</code>, and <code>tv_tensors.BoundingBoxes</code>. Apply geometric transforms jointly. Convert to pure tensors at the model boundary.</p>
+<p>An image flip must update both masks and boxes. Color jitter affects only the image.</p>
+<h2>4. Stratification proxy</h2>
+<p>Instance-segmentation images are usually multilabel and have varying object counts. A compact proxy used in the repository is:</p>
+<pre><code class="language-text">class composition + instance-count bin
+examples: circle_1, square_1, mixed_2
+</code></pre>
+<p>Real alternatives include rarest class present, class-presence signature, and instance-count/area bins. If samples share scenes or patients, use group-aware splitting even when class balance becomes imperfect.</p>
+<p>Persist the table:</p>
+<pre><code class="language-text">image_id, image_path, mask_path, split_key, group_id, fold
+</code></pre>
+<h2>Handwritten exercise 8A — decode a map</h2>
+<p>Instance map values are <code>{0, 3, 7}</code>. Label mapping is <code>{3: 2, 7: 2}</code>.</p>
+<ul>
+<li>Number of instances: ______</li>
+<li><code>masks</code> shape for 128×128 image: <strong><em>_</em></strong><strong><em>_</em></strong>____</li>
+<li><code>labels</code>: <strong><em>_</em></strong><strong><em>_</em></strong>____</li>
+<li>Are the two objects separate at inference? ______</li>
+</ul>
+<h2>Handwritten exercise 8B — target audit</h2>
+<p>Fill the dtype/shape:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shape</th>
+<th>Dtype</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boxes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>labels</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>masks</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>image_id</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>area</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>iscrowd</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Handwritten exercise 8C — fold design</h2>
+<p>You have 300 images from 30 videos. Each image may contain three classes. Write the priority order for a valid split.</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<h2>Competition drill</h2>
+<p>A horizontal flip changes image and boxes, but not masks. Training still runs. Predict two symptoms.</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<h2>Exit ticket</h2>
+<p>Write the six instance-target keys from memory: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<div class="pagebreak"></div>
+
+<h1>Day 9 — Train Mask R-CNN from scratch</h1>
+<h2>Learning goal</h2>
+<p>Understand the official model boundary, five losses, offline initialization, and validation-cache workflow.</p>
+<h2>1. Why Mask R-CNN ResNet50-FPN V2</h2>
+<p>Mask R-CNN extends Faster R-CNN with a per-instance mask head. The repository selects Torchvision’s V2 builder as the accuracy-first allowlisted baseline. Official metadata reports stronger COCO mask accuracy than the older builder, but V2 is compute-heavy.</p>
+<p>Offline default:</p>
+<pre><code class="language-python">model = maskrcnn_resnet50_fpn_v2(
+    weights=None,
+    weights_backbone=None,
+    num_classes=NUM_CLASSES,  # includes background
+    min_size=IMAGE_SIZE,
+    max_size=IMAGE_SIZE,
+)
+</code></pre>
+<p>If legal pretrained weights exist, load explicitly and replace <strong>both</strong> box and mask predictors for the target classes.</p>
+<h2>2. Training-mode output</h2>
+<p>With images and targets, the model returns:</p>
+<ul>
+<li><code>loss_classifier</code>;</li>
+<li><code>loss_box_reg</code>;</li>
+<li><code>loss_mask</code>;</li>
+<li><code>loss_objectness</code>;</li>
+<li><code>loss_rpn_box_reg</code>.</li>
+</ul>
+<pre><code class="language-python">loss_dict = model(device_images, device_targets)
+total_loss = sum(loss_dict.values())
+</code></pre>
+<p>Record every component, images seen, batches, and runtime. Reject non-finite totals.</p>
+<h2>3. Evaluation-mode output</h2>
+<p>Without targets, one result per image contains:</p>
+<pre><code class="language-text">boxes   float32[P,4]
+labels  int64[P]
+scores  float32[P]
+masks   float32[P,1,H,W]   # soft probabilities
+</code></pre>
+<p>Do not threshold masks inside the cache. Store raw scores and mask probabilities on CPU so threshold sweeps are cheap.</p>
+<h2>4. Fold training discipline</h2>
+<p>For each fold:</p>
+<ol>
+<li>reset to the same documented initialization policy;</li>
+<li>train on all rows where <code>fold != k</code>;</li>
+<li>validate only rows where <code>fold == k</code>;</li>
+<li>save <code>model_fold_k.pt</code>, config, label mapping, and fold table hash;</li>
+<li>write OOF predictions only for fold <code>k</code>;</li>
+<li>verify every training image appears once across OOF caches.</li>
+</ol>
+<p>Test inference runs every fold model, then associates/ensembles predictions by image and class.</p>
+<h2>5. Failure diagnosis</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>First checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loss_mask</code> flat</td>
+<td>masks binary/nonempty; labels aligned; transforms synchronized</td>
+</tr>
+<tr>
+<td>box loss high</td>
+<td>coordinate format; derived boxes; image resizing</td>
+</tr>
+<tr>
+<td>no predictions</td>
+<td>score floor; undertraining; RPN proposals; label/background mapping</td>
+</tr>
+<tr>
+<td>many duplicates</td>
+<td>score threshold; NMS; proposal counts</td>
+</tr>
+<tr>
+<td>merged touching objects</td>
+<td>mask resolution, proposal association, instance labels</td>
+</tr>
+<tr>
+<td>CPU too slow</td>
+<td>smaller image, fewer proposals, bounded smoke run, simpler baseline</td>
+</tr>
+</tbody>
+</table>
+<h2>Handwritten exercise 9A — complete the builder policy</h2>
+<pre><code class="language-python">model = maskrcnn_resnet50_fpn_v2(
+    weights=____________,
+    weights_backbone=____________,
+    num_classes=____________,
+)
+</code></pre>
+<p>Why are both weight arguments explicit? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<h2>Handwritten exercise 9B — model modes</h2>
+<p>Fill the calls:</p>
+<p>Training: <code>model._______(); result = model(____________, ____________)</code></p>
+<p>Inference: <code>model._______(); result = model(____________)</code> inside <code>______________</code></p>
+<p>Training result type: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  Inference result type: </em></strong><strong><em>_</em></strong>______</p>
+<h2>Handwritten exercise 9C — loss reasoning</h2>
+<p>Epoch 1 → 5: <code>loss_mask</code> drops from 1.2 to .3, but <code>loss_classifier</code> remains 1.1 and predicted labels are random.</p>
+<p>What improved? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p>What remains broken? <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p>Name two checks: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Competition drill</h2>
+<p>A legal pretrained checkpoint exists but is not cached, and competition internet is disabled. What is the correct plan before and during the event?</p>
+<hr>
+<h2>Exit ticket</h2>
+<p>Write all five losses: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<div class="pagebreak"></div>
+
+<h1>Day 10 — OOF evaluation, ensembling, and submission</h1>
+<h2>Learning goal</h2>
+<p>Finish the competition loop: cache predictions, tune without leakage, ensemble by task, and audit submission artifacts.</p>
+<h2>1. One-to-one instance matching</h2>
+<p>For local instance F1 at a fixed mask-IoU threshold:</p>
+<ol>
+<li>choose a class;</li>
+<li>filter predictions by score;</li>
+<li>threshold soft masks;</li>
+<li>sort predictions by score;</li>
+<li>compute pairwise IoU against same-class targets;</li>
+<li>greedily match the best unmatched target above the IoU threshold;</li>
+<li>unmatched predictions are FP; unmatched targets are FN.</li>
+</ol>
+<p>This is useful for threshold decisions but may not reproduce COCO AP. Final model selection must use the official competition evaluator.</p>
+<h2>2. Threshold sweeps</h2>
+<p>Tune from complete OOF caches:</p>
+<ul>
+<li>classification: decision/calibration threshold if multilabel or binary;</li>
+<li>detection: confidence and NMS thresholds;</li>
+<li>semantic segmentation: usually argmax; perhaps class-specific probability/post-processing thresholds;</li>
+<li>instance segmentation: confidence, mask binarization, and mask-NMS/merge thresholds.</li>
+</ul>
+<p>Record the number of predicted instances/boxes as well as the score. A threshold can improve precision by deleting almost everything.</p>
+<h2>3. Task-appropriate fold ensembling</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Ensemble rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classification</td>
+<td>Average aligned logits or probabilities</td>
+</tr>
+<tr>
+<td>Detection</td>
+<td>Class-aware NMS or box fusion across fold outputs</td>
+</tr>
+<tr>
+<td>Semantic segmentation</td>
+<td>Resize/aligned logits, then average before argmax</td>
+</tr>
+<tr>
+<td>Instance segmentation</td>
+<td>Associate same-class overlapping instances, then score-weight mask probabilities</td>
+</tr>
+</tbody>
+</table>
+<p>For instance masks, never average all pixels from unrelated objects. Cluster candidates only when class and overlap support the same-instance hypothesis.</p>
+<h2>4. RLE reminder</h2>
+<p>A common mask submission uses one-indexed <code>start length</code> runs after column-major flattening:</p>
+<pre><code class="language-python">pixels = mask.T.reshape(-1)
+</code></pre>
+<p>But competitions differ. Confirm:</p>
+<ul>
+<li>row-major versus column-major;</li>
+<li>zero- versus one-indexed starts;</li>
+<li>binary threshold;</li>
+<li>one row per image or instance;</li>
+<li>representation of empty masks;</li>
+<li>class and score columns;</li>
+<li>required sorting.</li>
+</ul>
+<h2>5. Final submission audit</h2>
+<pre><code class="language-text">□ exact required columns and order
+□ expected row count or valid variable-row rule
+□ every test ID present; no unknown ID
+□ no duplicate rows unless instances require them
+□ no NaN/Inf
+□ labels inverse-mapped correctly
+□ boxes clipped and ordered correctly
+□ masks/RLE decode to intended shape
+□ probabilities/scores in valid range
+□ test order preserved
+□ smoke-submit file written and reopened
+</code></pre>
+<h2>Handwritten exercise 10A — choose the ensemble</h2>
+<p>Write the rule for each output:</p>
+<p>Classification probabilities: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<p>Semantic logits: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p>Detection boxes: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p>Instance masks: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Handwritten exercise 10B — leakage audit</h2>
+<p>Mark valid (V) or invalid (I):</p>
+<ol>
+<li>Select score threshold on complete OOF predictions. ___</li>
+<li>Select mask threshold on public leaderboard response. ___</li>
+<li>Fit normalization statistics on train plus test. ___</li>
+<li>Average three fold models on test. ___</li>
+<li>Use fold 0 model to predict fold 0 validation after training on all folds. ___</li>
+</ol>
+<h2>Handwritten exercise 10C — mock final hour</h2>
+<p>You have 60 minutes. Assign minutes:</p>
+<pre><code class="language-text">rerun best folds/checkpoints: ______
+test inference:              ______
+ensemble/post-process:       ______
+submission audit:            ______
+buffer/recovery:             ______
+TOTAL:                        60
+</code></pre>
+<p>What action will you refuse to start in the final 15 minutes? <strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<h2>Final competition drill</h2>
+<p>Write your end-to-end plan in no more than twelve lines:</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<h1>Cross-task reference sheets</h1>
+<h2>Tensor and target contracts</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Model input</th>
+<th>Training target</th>
+<th>Model output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classification</td>
+<td><code>[B,3,H,W] float32</code></td>
+<td><code>[B] int64</code></td>
+<td><code>[B,C]</code> logits</td>
+</tr>
+<tr>
+<td>Detection</td>
+<td>list of <code>[3,H,W]</code></td>
+<td>list of dicts with boxes/labels</td>
+<td>list of boxes/labels/scores</td>
+</tr>
+<tr>
+<td>Semantic segmentation</td>
+<td><code>[B,3,H,W] float32</code></td>
+<td><code>[B,H,W] int64</code></td>
+<td>dict with <code>[B,C,H,W]</code> logits</td>
+</tr>
+<tr>
+<td>Instance segmentation</td>
+<td>list of <code>[3,H,W]</code></td>
+<td>boxes/labels/masks dict</td>
+<td>boxes/labels/scores/soft masks</td>
+</tr>
+</tbody>
+</table>
+<h2>Background conventions</h2>
+<ul>
+<li>Classification: usually no implicit background class.</li>
+<li>Torchvision detection/instance segmentation: <code>num_classes</code> includes background at index 0; foreground labels start at 1.</li>
+<li>Semantic segmentation: background is normally class 0 and is included in <code>C</code>, unless the task specifies otherwise.</li>
+</ul>
+<h2>Mode and gradient checklist</h2>
+<pre><code class="language-text">training:   model.train() → forward with targets if detection → loss → backward → step
+validation: model.eval()  → torch.inference_mode() → cache raw outputs on CPU
+</code></pre>
+<p>BatchNorm and dropout change behavior between modes. Freezing parameters does not automatically freeze BatchNorm running statistics.</p>
+<h2>Split decision tree</h2>
+<pre><code class="language-text">Do observations share a patient/video/product/scene?
+├─ yes → group-aware split first
+└─ no
+   ├─ one class per sample → StratifiedKFold
+   └─ multiple labels/objects → documented multilabel/task proxy
+
+Is deployment temporal?
+└─ yes → preserve time direction, even if class balance is imperfect
+</code></pre>
+<h2>Metric decision table</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom hidden by headline metric</th>
+<th>Add this report</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Majority class dominates accuracy</td>
+<td>Macro-F1, per-class recall</td>
+</tr>
+<tr>
+<td>Detection localization is loose</td>
+<td>mAP75 or higher-IoU metrics</td>
+</tr>
+<tr>
+<td>Background dominates pixels</td>
+<td>per-class IoU, foreground mIoU</td>
+</tr>
+<tr>
+<td>Duplicated instances</td>
+<td>precision, count error, mask NMS audit</td>
+</tr>
+<tr>
+<td>Fold instability</td>
+<td>fold mean, standard deviation, worst fold</td>
+</tr>
+<tr>
+<td>Threshold deletes outputs</td>
+<td>predicted count and recall</td>
+</tr>
+</tbody>
+</table>
+<h2>Reproducibility record</h2>
+<p>Write this beside every serious run:</p>
+<pre><code class="language-text">run_id:
+git/data version:
+fold table/hash:
+seed:
+model + weight provenance:
+image size:
+train/validation transforms:
+optimizer, LR, weight decay, scheduler:
+epochs and observations/epoch:
+main metric + per-class metrics:
+inference thresholds/TTA:
+runtime and memory:
+checkpoint filename:
+</code></pre>
+<div class="pagebreak"></div>
+
+<h1>Code-from-memory sheets</h1>
+<h2>Classification skeleton</h2>
+<pre><code class="language-python">import os
+import pandas as pd
+import torch
+from PIL import Image
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
+from torchvision.models import resnet18
+from torchvision.transforms import v2
+
+class ImageDataset(Dataset):
+    def __init__(self, frame, transform):
+        self.frame = frame.reset_index(drop=True)
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.frame)
+
+    def __getitem__(self, index):
+        row = self.frame.iloc[index]
+        image = Image.open(row.image_path).convert(&quot;RGB&quot;)
+        return self.transform(image), torch.tensor(row.class_id, dtype=torch.int64)
+
+model = resnet18(weights=None)
+model.fc = nn.Linear(model.fc.in_features, NUM_CLASSES)
+criterion = nn.CrossEntropyLoss()
+</code></pre>
+<p>Write the missing training/evaluation loop on this page:</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<h2>Detection skeleton</h2>
+<pre><code class="language-python">def collate_detection(batch):
+    images, targets = zip(*batch)
+    return tuple(images), tuple(targets)
+
+model = fasterrcnn_resnet50_fpn_v2(
+    weights=None,
+    weights_backbone=None,
+    num_classes=NUM_CLASSES,
+)
+
+model.train()
+for images, targets in loader:
+    images = [image.to(device) for image in images]
+    targets = [{k: v.to(device) for k, v in target.items()} for target in targets]
+    losses = model(images, targets)
+    loss = sum(losses.values())
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+</code></pre>
+<p>Write the evaluation/cache loop:</p>
+<hr>
+<hr>
+<hr>
+<h2>Semantic-segmentation skeleton</h2>
+<pre><code class="language-python">model = deeplabv3_resnet50(
+    weights=None,
+    weights_backbone=None,
+    num_classes=NUM_CLASSES,
+    aux_loss=True,
+)
+
+outputs = model(images)
+main_loss = nn.functional.cross_entropy(outputs[&quot;out&quot;], masks)
+aux_loss = nn.functional.cross_entropy(outputs[&quot;aux&quot;], masks)
+loss = main_loss + 0.4 * aux_loss
+prediction = outputs[&quot;out&quot;].argmax(dim=1)
+</code></pre>
+<p>Write the per-class IoU loop:</p>
+<hr>
+<hr>
+<hr>
+<h2>Instance-segmentation skeleton</h2>
+<pre><code class="language-python">instance_ids = [v for v in np.unique(instance_map) if v != 0]
+masks = torch.stack([
+    torch.from_numpy((instance_map == v).astype(np.uint8))
+    for v in instance_ids
+])
+boxes = masks_to_boxes(masks)
+
+target = {
+    &quot;boxes&quot;: boxes.to(torch.float32),
+    &quot;labels&quot;: labels.to(torch.int64),
+    &quot;masks&quot;: masks.to(torch.uint8),
+    &quot;image_id&quot;: image_id.to(torch.int64),
+    &quot;area&quot;: masks.flatten(1).sum(1).to(torch.float32),
+    &quot;iscrowd&quot;: torch.zeros(len(masks), dtype=torch.int64),
+}
+</code></pre>
+<p>Write the offline Mask R-CNN builder and five-loss update:</p>
+<hr>
+<hr>
+<hr>
+<div class="pagebreak"></div>
+
+<h1>Emergency debugging guide</h1>
+<h2>If training crashes immediately</h2>
+<ol>
+<li>Print one sample and one batch.</li>
+<li>Check every tensor’s shape, dtype, min/max, device.</li>
+<li>Check label range against output channels.</li>
+<li>Run one forward pass without optimizer logic.</li>
+<li>Check loss is finite.</li>
+<li>Overfit one or two samples only as a structural diagnostic.</li>
+</ol>
+<h2>If score is suspiciously high</h2>
+<ul>
+<li>duplicated train/validation image;</li>
+<li>shared patient/video/product across folds;</li>
+<li>target leaked into filename or pixels;</li>
+<li>validation transform uses train-time artifact;</li>
+<li>OOF row predicted by a model that trained on it;</li>
+<li>public leaderboard overfitting.</li>
+</ul>
+<h2>If score is suspiciously low</h2>
+<ul>
+<li>wrong RGB/BGR or normalization;</li>
+<li>wrong label inverse mapping;</li>
+<li>background/index offset;</li>
+<li>wrong box format or image scale;</li>
+<li>bilinear interpolation on class masks;</li>
+<li>wrong mask threshold/RLE order;</li>
+<li>model left in training mode;</li>
+<li>checkpoint and architecture mismatch;</li>
+<li>test IDs reordered.</li>
+</ul>
+<h2>If loss decreases but metric does not</h2>
+<ul>
+<li>optimized loss poorly aligned with metric;</li>
+<li>threshold/post-processing wrong;</li>
+<li>majority/background dominates loss;</li>
+<li>localization/mask quality below evaluation IoU;</li>
+<li>label noise;</li>
+<li>validation support too small;</li>
+<li>underfit rare classes or overfit common classes.</li>
+</ul>
+<h2>The five-print rule</h2>
+<p>Before long training, print:</p>
+<ol>
+<li>one raw record;</li>
+<li>one transformed image/target;</li>
+<li>one batch contract;</li>
+<li>one model output/loss dictionary;</li>
+<li>one decoded prediction beside ground truth.</li>
+</ol>
+<div class="pagebreak"></div>
+
+<h1>Answer key and discussion notes</h1>
+<h2>Day 1</h2>
+<p><strong>1A.</strong> (1) Group-aware by camera burst, with class balancing at group level if possible. (2) Group by patient; never split tiles from one patient across folds. (3) A documented multi-object proxy such as class-presence signature + empty/object-count bin; group-aware if a scene relationship exists. (4) Temporal/drive-level validation preserving future direction.</p>
+<p><strong>1B.</strong> <code>is_unique</code>; <code>{0,1,...,K-1}</code>; <code>isdisjoint</code>; total unique observations.</p>
+<p><strong>Drill.</strong> Test-distribution information influenced a validation decision. Public-leaderboard feedback is noisy and encourages overfitting. Select the threshold from complete OOF predictions using the official/local metric.</p>
+<h2>Day 2</h2>
+<p><strong>2A.</strong> <code>image_path</code>, <code>RGB</code>, <code>class_name</code>, <code>int64</code>, <code>image</code>, <code>label</code>. Image is <code>float32 [3,H,W]</code> after the shown transform; label is scalar <code>int64</code>.</p>
+<p><strong>2B.</strong> Matrix rows: <code>[1,1,0]</code>, <code>[0,2,1]</code>, <code>[0,0,1]</code>. Class 0 recall is <code>1/2</code>; class 1 recall is <code>2/3</code>; class 2 recall is <code>1</code>. Class 0 is weakest.</p>
+<p><strong>Drill.</strong> Plausible causes include majority-class improvement hiding rare-class collapse, or threshold/calibration changes. Inspect per-class recall/F1, confusion pairs, support, and confidence distributions.</p>
+<h2>Day 3</h2>
+<p><strong>3A.</strong> <code>w0=100/(3·80)=0.4167</code>; <code>w1=2.0833</code>; <code>w2=8.3333</code>. Each class receives similar aggregate weight if all examples contribute, while each class-2 example has the greatest individual influence.</p>
+<p><strong>3B.</strong> The sampler run has the largest stated Macro-F1 (<code>0.63</code>) and preserves majority recall better. Reject it if fold stability is poor, minority examples are memorized, inference slices fail, or the competition metric/cost differs.</p>
+<p><strong>TTA drill.</strong> Skip TTA if it risks timeout for a negligible, unstable gain; or use it only for a subset/model if a measured runtime budget remains.</p>
+<h2>Day 4</h2>
+<p><strong>4A.</strong> Center <code>(100,40)</code>, size <code>(40,30)</code>, XYXY <code>(80,25,120,55)</code>.</p>
+<p><strong>4B.</strong> Intersection <code>50</code>, union <code>150</code>, IoU <code>1/3 ≈ .333</code>.</p>
+<p><strong>4C.</strong> Keep A, suppress B, keep C. If B is a different class, class-aware NMS keeps A, B, and C.</p>
+<p><strong>Drill.</strong> Check label offset/background, XYXY versus XYWH, normalized versus pixel scale, image width/height order, prediction/ground-truth ID alignment, and evaluator IoU/class matching.</p>
+<h2>Day 5</h2>
+<p><strong>5A.</strong> <code>train</code>; <code>sum(loss_dict.values())</code>; <code>zero_grad</code>; <code>backward</code>; <code>step</code>. Images, targets, and parameters must share a device for tensor operations.</p>
+<p><strong>5B.</strong> Audit annotation/coordinate conversion, transform synchronization, box clipping and positive area, image resizing scale, label mapping, and proposal/anchor fit before merely training longer.</p>
+<p><strong>5C.</strong> F1 values are approximately <code>.575</code>, <code>.694</code>, <code>.550</code>; choose <code>.30</code> for this table if F1 is the target.</p>
+<p><strong>Drill.</strong> Improve validation support: more folds only if each has support, merge rare strata, use repeated/group-aware folds, collect more examples, and report uncertainty. Do not claim stable rare-class quality from two observations.</p>
+<h2>Day 6</h2>
+<p><strong>6A.</strong> Logits <code>[4,5,256,320]</code>; target <code>int64 [4,256,320]</code>; prediction <code>int64 [4,256,320]</code>; reduce class dimension <code>1</code>.</p>
+<p><strong>6B.</strong> Intersection <code>30</code>, union <code>30+10+20=60</code>, IoU <code>.50</code>. High pixel accuracy likely reflects background dominance.</p>
+<p><strong>6C.</strong> Use nearest-neighbor mask resize, target <code>int64</code>, and raw logits in cross entropy: <code>loss = cross_entropy(logits, target)</code>.</p>
+<h2>Day 7</h2>
+<p><strong>7A.</strong> Both blanks are <code>num_classes</code>. Semantic segmentation includes background if it is a documented class ID.</p>
+<p><strong>7B.</strong> Image size, epochs, fold, and TTA all differ. First compare on the same fold(s), resolution, training budget, transforms, seed policy, and inference procedure.</p>
+<p><strong>7C.</strong> Choose R50 under the 45 ms limit. Without a time penalty, verify memory, fold stability, class-level gains, checkpoint legality/availability, and whether the extra compute fits training constraints.</p>
+<h2>Day 8</h2>
+<p><strong>8A.</strong> Two instances; masks <code>[2,128,128]</code>; labels <code>[2,2]</code>; yes, the two instance channels remain separate despite sharing a class.</p>
+<p><strong>8B.</strong> Boxes <code>[N,4] float32</code>; labels <code>[N] int64</code>; masks <code>[N,H,W] uint8</code>; image ID <code>[1] int64</code>; area <code>[N] float32</code>; iscrowd <code>[N] int64</code>.</p>
+<p><strong>8C.</strong> First prevent video leakage by grouping. Then balance class presence/rarest class across video groups. Then balance instance-count/area bins where feasible. Audit the resulting support rather than assuming success.</p>
+<p><strong>Drill.</strong> Masks disagree spatially with boxes/images, so mask loss may stay high or learn contradictory targets; predicted masks may be mirrored/shifted even when boxes look plausible.</p>
+<h2>Day 9</h2>
+<p><strong>9A.</strong> <code>None</code>, <code>None</code>, target <code>num_classes</code>. Both are explicit because otherwise a builder/version may initialize the backbone from a remote checkpoint.</p>
+<p><strong>9B.</strong> Training: <code>train</code>, images, targets. Inference: <code>eval</code>, images, <code>torch.inference_mode()</code>. Training returns a loss dictionary; inference returns a list of prediction dictionaries.</p>
+<p><strong>9C.</strong> Mask-shape learning improved, but class discrimination did not. Check label mapping/background offset, class support, classifier gradients/loss weighting, ROI samples, and whether one epoch/fold has enough signal.</p>
+<p><strong>Drill.</strong> Before the event, verify legality and attach/pre-cache the checkpoint with a checksum. During the offline event, load only the local path. If unavailable, use the official architecture with both weights set to <code>None</code>; do not trigger a download.</p>
+<h2>Day 10</h2>
+<p><strong>10A.</strong> Average aligned logits/probabilities for classification; resize and average semantic logits before argmax; use class-aware NMS/box fusion for detection; associate same-class overlapping instances then combine mask probabilities for instance segmentation.</p>
+<p><strong>10B.</strong> V, I, I, V, I.</p>
+<p><strong>Final-hour discussion.</strong> Preserve at least 15–20 minutes for submission generation, reopening, decoding, ID checks, and recovery. Do not begin an unvalidated model/training change in the final minutes.</p>
+<div class="pagebreak"></div>
+
+<h1>Competition morning — one-page checklist</h1>
+<h2>Before training</h2>
+<pre><code class="language-text">□ Read metric and submission specification again
+□ Confirm allowed imports, internet, and checkpoint rules
+□ Fix stable label mapping and background convention
+□ Audit files, shapes, dtype, IDs, labels, empties, duplicates
+□ Persist leakage-safe folds by stable ID/group
+□ Visualize raw and transformed targets
+□ Run one forward/loss smoke test
+</code></pre>
+<h2>During experiments</h2>
+<pre><code class="language-text">□ Change one hypothesis at a time
+□ Keep split, initialization, epochs, and exposure aligned
+□ Record all loss components and runtime
+□ Cache complete OOF predictions once
+□ Report main, per-class, slice, and fold metrics
+□ Inspect high-confidence errors and annotation problems
+□ Save config, mapping, fold, and checkpoint together
+</code></pre>
+<h2>Before submission</h2>
+<pre><code class="language-text">□ Load each intended checkpoint in eval mode
+□ Apply deterministic test preprocessing
+□ Ensemble with a task-appropriate rule
+□ Apply thresholds selected only from OOF
+□ Preserve test IDs and required order
+□ Verify shapes, labels, ranges, row counts, NaN/Inf
+□ Decode several output rows/boxes/masks back to images
+□ Reopen the final file and run the submission checker
+□ Keep a known-good fallback submission
+</code></pre>
+<h2>My personal defaults</h2>
+<p>Validation split: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p>Fast baseline: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p>Primary metric: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p>Fallback model: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p>Maximum safe image size/batch: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p>Final-hour cutoff rule: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h2>Final reminder</h2>
+<p>The winning move is often not a novel architecture. It is the correct target contract, a split that does not lie, an official model that runs within the rules, an error report that identifies the next useful change, and a submission that faithfully preserves every ID.</p></body>
+</html>
