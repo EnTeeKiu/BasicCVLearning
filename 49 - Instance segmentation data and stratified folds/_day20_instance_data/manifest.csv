@@ -1,0 +1,19 @@
+sample_index,image_id,image_path,mask_path,instance_labels,split_key
+0,image_000,_day20_instance_data\images\image_000.png,_day20_instance_data\masks\image_000.png,[1],circle_1
+1,image_001,_day20_instance_data\images\image_001.png,_day20_instance_data\masks\image_001.png,[1],circle_1
+2,image_002,_day20_instance_data\images\image_002.png,_day20_instance_data\masks\image_002.png,[1],circle_1
+3,image_003,_day20_instance_data\images\image_003.png,_day20_instance_data\masks\image_003.png,[1],circle_1
+4,image_004,_day20_instance_data\images\image_004.png,_day20_instance_data\masks\image_004.png,[1],circle_1
+5,image_005,_day20_instance_data\images\image_005.png,_day20_instance_data\masks\image_005.png,[1],circle_1
+6,image_006,_day20_instance_data\images\image_006.png,_day20_instance_data\masks\image_006.png,[2],square_1
+7,image_007,_day20_instance_data\images\image_007.png,_day20_instance_data\masks\image_007.png,[2],square_1
+8,image_008,_day20_instance_data\images\image_008.png,_day20_instance_data\masks\image_008.png,[2],square_1
+9,image_009,_day20_instance_data\images\image_009.png,_day20_instance_data\masks\image_009.png,[2],square_1
+10,image_010,_day20_instance_data\images\image_010.png,_day20_instance_data\masks\image_010.png,[2],square_1
+11,image_011,_day20_instance_data\images\image_011.png,_day20_instance_data\masks\image_011.png,[2],square_1
+12,image_012,_day20_instance_data\images\image_012.png,_day20_instance_data\masks\image_012.png,"[1, 2]",mixed_2
+13,image_013,_day20_instance_data\images\image_013.png,_day20_instance_data\masks\image_013.png,"[1, 2]",mixed_2
+14,image_014,_day20_instance_data\images\image_014.png,_day20_instance_data\masks\image_014.png,"[1, 2]",mixed_2
+15,image_015,_day20_instance_data\images\image_015.png,_day20_instance_data\masks\image_015.png,"[1, 2]",mixed_2
+16,image_016,_day20_instance_data\images\image_016.png,_day20_instance_data\masks\image_016.png,"[1, 2]",mixed_2
+17,image_017,_day20_instance_data\images\image_017.png,_day20_instance_data\masks\image_017.png,"[1, 2]",mixed_2
